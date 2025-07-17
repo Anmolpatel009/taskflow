@@ -29,10 +29,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { href: '#', icon: <Facebook size={20} /> },
-  { href: '#', icon: <Twitter size={20} /> },
-  { href: '#', icon: <Linkedin size={20} /> },
-  { href: '#', icon: <Instagram size={20} /> },
+  { name: 'Facebook', href: '#', icon: <Facebook size={20} /> },
+  { name: 'Twitter', href: '#', icon: <Twitter size={20} /> },
+  { name: 'LinkedIn', href: '#', icon: <Linkedin size={20} /> },
+  { name: 'Instagram', href: '#', icon: <Instagram size={20} /> },
 ];
 
 export default function Footer() {
@@ -55,7 +55,7 @@ export default function Footer() {
               {title === 'Community' && (
                 <div className="flex space-x-4 pt-2">
                   {socialLinks.map((social) => (
-                    <Link key={social.href} href={social.href} className="text-gray-400 hover:text-white transition-colors">
+                    <Link key={social.name} href={social.href} className="text-gray-400 hover:text-white transition-colors">
                       {social.icon}
                     </Link>
                   ))}
