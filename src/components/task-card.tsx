@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -72,9 +73,12 @@ export default function TaskCard({ task }: TaskCardProps) {
         <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-muted/50 py-4 px-6">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarFallback>{task.posterName?.charAt(0).toUpperCase() || 'A'}</AvatarFallback>
+              <AvatarFallback>{task.posterName?.charAt(0).toUpperCase() || 'P'}</AvatarFallback>
             </Avatar>
-            <span className="font-semibold">{task.posterName || 'Anonymous'}</span>
+            <div>
+              <p className="font-semibold">{task.posterName}</p>
+              <p className="text-xs text-muted-foreground">Task Poster</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
