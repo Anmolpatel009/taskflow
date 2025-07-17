@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { User } from '@/types';
@@ -34,10 +35,10 @@ export default function FreelancerCard({ freelancer }: FreelancerCardProps) {
       <CardHeader className="bg-muted/50">
         <div className="flex items-center gap-4">
             <Avatar className="h-16 w-16 text-xl">
-                <AvatarFallback>{getInitials(profile?.fullName)}</AvatarFallback>
+                <AvatarFallback>{getInitials(freelancer.name)}</AvatarFallback>
             </Avatar>
             <div>
-                <CardTitle className="font-headline text-xl">{profile?.fullName || 'Anonymous Freelancer'}</CardTitle>
+                <CardTitle className="font-headline text-xl">{freelancer.name || 'Anonymous Freelancer'}</CardTitle>
                 <CardDescription className="flex items-center gap-1.5 pt-1 text-primary">
                     <Star className="w-4 h-4" /> Top Rated
                 </CardDescription>
