@@ -2,9 +2,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Interest, User } from '@/types';
+import type { Interest, User, Task } from '@/types';
 import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, Timestamp } from 'firebase/firestore';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import FreelancerCard from './freelancer-card';
@@ -28,19 +28,26 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
         try {
           const interestsQuery = query(
             collection(db, 'intrested'),
-            where('taskId', '==', taskId),
-            orderBy('interestedAt', 'desc')
+            where('taskId', '==', taskId)
           );
           const querySnapshot = await getDocs(interestsQuery);
           
-          const freelancersData: User[] = [];
+          const interestsData: Interest[] = [];
           querySnapshot.forEach(doc => {
-            const data = doc.data();
-            // The full user object is nested under the 'freelancer' key
-            if (data.freelancer) {
-              freelancersData.push({ ...data.freelancer, id: data.freelancerId });
-            }
+            interestsData.push(doc.data() as Interest);
           });
+
+          // Sort by date on the client-side
+          interestsData.sort((a, b) => {
+            const dateA = a.interestedAt?.toDate() || new Date(0);
+            const dateB = b.interestedAt?.toDate() || new Date(0);
+            return dateB.getTime() - dateA.getTime();
+          });
+          
+          const freelancersData: User[] = interestsData.map(interest => ({
+            ...(interest.freelancer as User),
+            id: interest.freelancerId,
+          }));
           
           setInterestedFreelancers(freelancersData);
         } catch (error) {
