@@ -102,7 +102,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         transaction.set(interestRef, {
             taskId: taskId,
             freelancerId: userData.id,
-            freelancer: userDoc.data(), // Store the full freelancer data
+            freelancer: userDoc.data(),
             interestedAt: serverTimestamp(),
         });
       });
