@@ -23,12 +23,18 @@ function getInitials(name?: string) {
 
 
 export default function FreelancerCard({ freelancer }: FreelancerCardProps) {
-    const profile = freelancer.freelancerProfile;
+    // The profile data might be nested under `freelancerProfile` or be at the top level.
+    const profile = freelancer.freelancerProfile || freelancer;
 
-    const allSkills = [
-        ...(profile?.services?.split(',').map(s => s.trim()) || []),
-        ...(profile?.skills || [])
-    ].filter((value, index, self) => self.indexOf(value) === index && value);
+    const skillsArray = Array.isArray(profile.skills) 
+      ? profile.skills 
+      : typeof profile.skills === 'string' ? profile.skills.split(',').map(s => s.trim()) : [];
+
+    const servicesArray = typeof profile.services === 'string' 
+      ? profile.services.split(',').map(s => s.trim()) 
+      : [];
+      
+    const allSkills = [...servicesArray, ...skillsArray].filter((value, index, self) => self.indexOf(value) === index && value);
 
   return (
     <Card className="flex flex-col transition-all hover:shadow-lg">
