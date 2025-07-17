@@ -1,4 +1,4 @@
-import type { Timestamp } from "firebase/firestore";
+import type { Timestamp, GeoPoint } from "firebase/firestore";
 
 export interface Task {
   id: string;
@@ -12,4 +12,25 @@ export interface Task {
   timeframe: string;
   status: 'open' | 'closed';
   createdAt: Timestamp;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  phone: string;
+  address: string;
+  location: GeoPoint;
+  userType: 'freelancer' | 'client';
+  createdAt: Timestamp;
+  freelancerProfile?: {
+    fullName: string;
+    skills: string[];
+    services: string;
+    experience: number;
+    hourlyRate: number;
+  };
+  clientProfile?: {
+    companyName: string;
+    industry: string;
+  };
 }
