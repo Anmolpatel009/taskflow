@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -17,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import type { User } from '@/types';
+import Link from 'next/link';
 
 interface InterestModalProps {
   isOpen: boolean;
@@ -44,22 +46,36 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
     setIsSubmitting(true);
     try {
       const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('email', '==', values.email), where('userType', '==', 'freelancer'));
+      const q = query(usersRef, where('email', '==', values.email));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
         toast({
           variant: 'destructive',
-          title: 'Freelancer not found',
-          description: 'No freelancer account exists with this email. Please register first.',
+          title: 'User not found',
+          description: "No account exists with this email.",
+          action: (
+            <Button asChild variant="secondary">
+                <Link href="/signup">Sign Up</Link>
+            </Button>
+          )
         });
         return;
       }
 
-      const freelancerDoc = querySnapshot.docs[0];
-      const freelancerData = { id: freelancerDoc.id, ...freelancerDoc.data() } as User;
+      const userDoc = querySnapshot.docs[0];
+      const userData = { id: userDoc.id, ...userDoc.data() } as User;
+
+      if (userData.userType !== 'freelancer') {
+         toast({
+          variant: 'destructive',
+          title: 'Not a Freelancer Account',
+          description: 'Only users registered as freelancers can show interest in tasks.',
+        });
+        return;
+      }
       
-      const interestQuery = query(collection(db, 'interests'), where('taskId', '==', taskId), where('freelancerId', '==', freelancerData.id));
+      const interestQuery = query(collection(db, 'interests'), where('taskId', '==', taskId), where('freelancerId', '==', userData.id));
       const existingInterest = await getDocs(interestQuery);
 
       if (!existingInterest.empty) {
@@ -85,8 +101,8 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         const interestRef = doc(collection(db, 'interests'));
         transaction.set(interestRef, {
             taskId: taskId,
-            freelancerId: freelancerData.id,
-            freelancer: freelancerDoc.data(),
+            freelancerId: userData.id,
+            freelancer: userDoc.data(), // Store the full freelancer data
             interestedAt: serverTimestamp(),
         });
       });
