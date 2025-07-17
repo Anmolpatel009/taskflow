@@ -30,7 +30,7 @@ const formSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters.'),
   phone: z.string().regex(/^[0-9]{10,15}$/, 'Invalid phone number.').optional(),
   address: z.string().min(10, 'Please enter a valid address.').optional(),
-  location: z.string().regex(/^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}, ?-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}$/, 'Please enter valid Latitude, Longitude.').optional(),
+  location: z.string().optional(),
   skills: z.string().optional(),
   services: z.string().optional(),
   experience: z.coerce.number().optional(),
