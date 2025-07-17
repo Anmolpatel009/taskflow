@@ -36,6 +36,7 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
           const freelancersData: User[] = [];
           querySnapshot.forEach(doc => {
             const interest = doc.data() as Omit<Interest, 'id'>;
+            // The full user object is nested under the 'freelancer' key
             freelancersData.push({ ...interest.freelancer, id: interest.freelancerId });
           });
           
