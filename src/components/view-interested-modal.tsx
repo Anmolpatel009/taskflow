@@ -22,7 +22,7 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
   const { toast } = useToast();
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && taskId) {
       const fetchInterested = async () => {
         setLoading(true);
         try {
@@ -32,22 +32,17 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
           );
           const querySnapshot = await getDocs(interestsQuery);
           
-          const interestsData: Interest[] = [];
+          const freelancersData: User[] = [];
           querySnapshot.forEach(doc => {
-            interestsData.push(doc.data() as Interest);
+            const interestData = doc.data();
+            // The freelancer profile is nested inside the 'freelancer' map
+            if (interestData.freelancer) {
+              freelancersData.push({
+                ...(interestData.freelancer as User),
+                id: interestData.freelancerId, 
+              });
+            }
           });
-
-          // Sort by date on the client-side
-          interestsData.sort((a, b) => {
-            const dateA = a.interestedAt?.toDate() || new Date(0);
-            const dateB = b.interestedAt?.toDate() || new Date(0);
-            return dateB.getTime() - dateA.getTime();
-          });
-          
-          const freelancersData: User[] = interestsData.map(interest => ({
-            ...(interest.freelancer as User),
-            id: interest.freelancerId,
-          }));
           
           setInterestedFreelancers(freelancersData);
         } catch (error) {
