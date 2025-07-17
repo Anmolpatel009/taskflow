@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -26,7 +27,7 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
         setLoading(true);
         try {
           const interestsQuery = query(
-            collection(db, 'interests'),
+            collection(db, 'intrested'),
             where('taskId', '==', taskId),
             orderBy('interestedAt', 'desc')
           );

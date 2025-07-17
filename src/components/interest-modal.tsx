@@ -75,7 +75,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         return;
       }
       
-      const interestQuery = query(collection(db, 'interests'), where('taskId', '==', taskId), where('freelancerId', '==', userData.id));
+      const interestQuery = query(collection(db, 'intrested'), where('taskId', '==', taskId), where('freelancerId', '==', userData.id));
       const existingInterest = await getDocs(interestQuery);
 
       if (!existingInterest.empty) {
@@ -98,7 +98,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         const newInterestedCount = (taskDoc.data().interestedCount || 0) + 1;
         transaction.update(taskRef, { interestedCount: newInterestedCount });
         
-        const interestRef = doc(collection(db, 'interests'));
+        const interestRef = doc(collection(db, 'intrested'));
         transaction.set(interestRef, {
             taskId: taskId,
             freelancerId: userData.id,
