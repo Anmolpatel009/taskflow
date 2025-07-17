@@ -64,9 +64,9 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
       }
 
       const userDoc = querySnapshot.docs[0];
-      const userData = { id: userDoc.id, ...userDoc.data() } as User;
+      const userDocData = userDoc.data();
 
-      if (userData.role !== 'freelancer') {
+      if (userDocData.role !== 'freelancer') {
          toast({
           variant: 'destructive',
           title: 'Not a Freelancer Account',
@@ -75,7 +75,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         return;
       }
       
-      const interestQuery = query(collection(db, 'intrested'), where('taskId', '==', taskId), where('freelancerId', '==', userData.id));
+      const interestQuery = query(collection(db, 'intrested'), where('taskId', '==', taskId), where('freelancerId', '==', userDoc.id));
       const existingInterest = await getDocs(interestQuery);
 
       if (!existingInterest.empty) {
@@ -101,8 +101,8 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         const interestRef = doc(collection(db, 'intrested'));
         transaction.set(interestRef, {
             taskId: taskId,
-            freelancerId: userData.id,
-            freelancer: userDoc.data(),
+            freelancerId: userDoc.id,
+            freelancer: userDocData,
             interestedAt: serverTimestamp(),
         });
       });
