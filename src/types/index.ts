@@ -12,6 +12,7 @@ export interface Task {
   timeframe: string;
   status: 'open' | 'closed';
   createdAt: Timestamp;
+  interestedCount?: number;
 }
 
 export interface User {
@@ -33,4 +34,12 @@ export interface User {
     companyName: string;
     industry: string;
   };
+}
+
+export interface Interest {
+    id: string;
+    taskId: string;
+    freelancerId: string;
+    freelancer: User;
+    interestedAt: Timestamp;
 }
