@@ -64,7 +64,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
       }
 
       const userDoc = querySnapshot.docs[0];
-      const userDocData = userDoc.data();
+      const userDocData = userDoc.data() as User;
 
       if (userDocData.role !== 'freelancer') {
          toast({

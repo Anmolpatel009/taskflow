@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -24,12 +25,12 @@ import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   role: z.enum(['freelancer', 'client'], { required_error: 'Please select a role.' }),
+  name: z.string().min(2, 'Please enter a name.'),
   email: z.string().email('Invalid email address.'),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
-  phone: z.string().regex(/^[0-9]{10,15}$/, 'Invalid phone number.'),
-  address: z.string().min(10, 'Please enter a valid address.'),
-  location: z.string().regex(/^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}, ?-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}$/, 'Please enter valid Latitude, Longitude.'),
-  fullName: z.string().optional(),
+  phone: z.string().regex(/^[0-9]{10,15}$/, 'Invalid phone number.').optional(),
+  address: z.string().min(10, 'Please enter a valid address.').optional(),
+  location: z.string().regex(/^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}, ?-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}$/, 'Please enter valid Latitude, Longitude.').optional(),
   skills: z.string().optional(),
   services: z.string().optional(),
   experience: z.coerce.number().optional(),
@@ -50,9 +51,7 @@ export default function SignupPage() {
     defaultValues: {
       email: '',
       password: '',
-      phone: '',
-      address: '',
-      location: '',
+      name: '',
     },
   });
   
@@ -66,21 +65,28 @@ export default function SignupPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
-
-      const [lat, lng] = values.location.split(',').map(coord => parseFloat(coord.trim()));
+      
+      const [lat, lng] = values.location ? values.location.split(',').map(coord => parseFloat(coord.trim())) : [0,0];
 
       const userData: any = {
         email: values.email,
-        phone: values.phone,
-        address: values.address,
+        name: values.name,
+        phone: values.phone || '',
+        address: values.address || '',
         location: new GeoPoint(lat, lng),
         role: values.role,
         createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        activeProjects: 0,
+        completedProjects: 0,
+        tasksApplied: 0,
+        totalEarnings: 0,
+        unreadMessages: 0,
       };
 
       if (values.role === 'freelancer') {
         userData.freelancerProfile = {
-          fullName: values.fullName || '',
+          fullName: values.name,
           skills: values.skills?.split(',').map(s => s.trim()) || [],
           services: values.services || '',
           experience: values.experience || 0,
@@ -132,27 +138,27 @@ export default function SignupPage() {
                   </FormItem>
                 )} />
 
+                <FormField control={form.control} name="name" render={({ field }) => (
+                  <FormItem><FormLabel>Full Name *</FormLabel><FormControl><Input placeholder="John Doe" {...field} /></FormControl><FormMessage /></FormItem>
+                )} />
                 <FormField control={form.control} name="email" render={({ field }) => (
                   <FormItem><FormLabel>Email *</FormLabel><FormControl><Input placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField control={form.control} name="password" render={({ field }) => (
                   <FormItem><FormLabel>Password *</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
-                <FormField control={form.control} name="phone" render={({ field }) => (
-                  <FormItem><FormLabel>Phone Number *</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                 <FormField control={form.control} name="address" render={({ field }) => (
-                  <FormItem><FormLabel>Address *</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem><FormLabel>Location (Latitude, Longitude) *</FormLabel><FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
 
                 {userRole === 'freelancer' && (
                   <div className="space-y-4 p-4 border rounded-md">
                      <h3 className="font-semibold">Freelancer Details</h3>
-                      <FormField control={form.control} name="fullName" render={({ field }) => (
-                        <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="John Doe" {...field} /></FormControl><FormMessage /></FormItem>
+                      <FormField control={form.control} name="phone" render={({ field }) => (
+                        <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
+                      )} />
+                      <FormField control={form.control} name="address" render={({ field }) => (
+                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
+                      )} />
+                      <FormField control={form.control} name="location" render={({ field }) => (
+                        <FormItem><FormLabel>Location (Latitude, Longitude)</FormLabel><FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl><FormMessage /></FormItem>
                       )} />
                       <FormField control={form.control} name="skills" render={({ field }) => (
                         <FormItem><FormLabel>Skills</FormLabel><FormControl><Input placeholder="e.g., Web Development, Graphic Design" {...field} /></FormControl><FormMessage /></FormItem>
@@ -189,6 +195,12 @@ export default function SignupPage() {
                     <FormField control={form.control} name="industry" render={({ field }) => (
                       <FormItem><FormLabel>Industry</FormLabel><FormControl><Input placeholder="e.g., Technology, Construction" {...field} /></FormControl><FormMessage /></FormItem>
                     )} />
+                     <FormField control={form.control} name="phone" render={({ field }) => (
+                        <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
+                      )} />
+                      <FormField control={form.control} name="address" render={({ field }) => (
+                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
+                      )} />
                   </div>
                 )}
 
