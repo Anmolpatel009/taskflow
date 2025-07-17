@@ -21,7 +21,7 @@ export interface User {
   phone: string;
   address: string;
   location: GeoPoint;
-  userType: 'freelancer' | 'client';
+  role: 'freelancer' | 'client';
   createdAt: Timestamp;
   freelancerProfile?: {
     fullName: string;

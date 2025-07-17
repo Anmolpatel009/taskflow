@@ -12,7 +12,7 @@ export default function FreelancerList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, 'users'), where('userType', '==', 'freelancer'));
+    const q = query(collection(db, 'users'), where('role', '==', 'freelancer'));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const freelancersData: User[] = [];
       querySnapshot.forEach((doc) => {
