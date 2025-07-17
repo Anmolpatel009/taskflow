@@ -64,7 +64,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
       }
 
       const userDoc = querySnapshot.docs[0];
-      const userDocData = userDoc.data() as User;
+      const userDocData = userDoc.data();
 
       if (userDocData.role !== 'freelancer') {
          toast({
@@ -102,7 +102,7 @@ export default function InterestModal({ isOpen, onOpenChange, taskId, onInterest
         transaction.set(interestRef, {
             taskId: taskId,
             freelancerId: userDoc.id,
-            freelancer: userDocData,
+            freelancer: userDocData, // Save the entire user document data
             interestedAt: serverTimestamp(),
         });
       });
