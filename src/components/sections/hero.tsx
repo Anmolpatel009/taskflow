@@ -18,7 +18,13 @@ export default function Hero() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
-                    <Link href="/signup">Start a Project</Link>
+                    <Link href="/signup">Join Now</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/nearby">Find Nearby Freelancers</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/showall">Show All Freelancers</Link>
                 </Button>
             </div>
              <p className="text-sm text-muted-foreground mt-4 text-center md:text-left">
