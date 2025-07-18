@@ -9,7 +9,6 @@ export default function Hero() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           
-          {/* Left Column: Text Content */}
           <div className="text-center md:text-left">
             <h1 className="text-4xl md:text-5xl font-bold font-headline mb-6 text-gray-800 leading-tight">
               Hire the best developers. Vetted by us, perfect for you!
@@ -27,36 +26,29 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Image Composition */}
           <div className="relative h-96 flex items-center justify-center">
-            {/* Woman with laptop image (circle) */}
             <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10">
                 <Image
                     src="https://images.unsplash.com/photo-1554310624-9449d3a43323?q=80&w=400&h=400&fit=crop"
                     data-ai-hint="woman developer"
                     alt="Female developer working on a laptop"
-                    layout="fill"
-                    objectFit="cover"
-                    className="saturate-[0.5] contrast-125 opacity-90"
+                    fill
+                    className="object-cover saturate-[0.5] contrast-125 opacity-90"
                 />
             </div>
             
-            {/* Man smiling image (square) */}
             <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-lg">
                  <Image
                     src="https://placehold.co/400x400.png"
                     data-ai-hint="male professional smiling"
                     alt="Male professional smiling"
-                    layout="fill"
-                    objectFit="cover"
-                    className="saturate-[0.5] contrast-125 opacity-90"
+                    fill
+                    className="object-cover saturate-[0.5] contrast-125 opacity-90"
                 />
             </div>
             
-            {/* Decorative white square */}
             <div className="absolute h-48 w-48 bg-white/70 backdrop-blur-sm rounded-lg shadow-2xl z-20"></div>
 
-            {/* Decorative lines */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-gray-200 rounded-lg"></div>
                 <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-gray-200 rounded-full"></div>
