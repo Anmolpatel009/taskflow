@@ -101,7 +101,7 @@ export default {
         },
         "ping-slow": {
           '75%, 100%': {
-            transform: 'scale(1.5)',
+            transform: 'scale(2)',
             opacity: '0',
           },
         },
@@ -126,7 +126,7 @@ export default {
         "fade-in-down": "fade-in-down 0.5s ease-out forwards",
         "fade-in-up": "fade-in-up 0.5s ease-out forwards",
         "float": "float 5s ease-in-out infinite",
-        "ping-slow": 'ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+        "ping-slow": 'ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite',
         "rgb-border": 'rgb-border 4s linear infinite',
         "tilt-shaking": 'tilt-shaking 4s infinite',
         "spin-slow": 'spin-slow 25s linear infinite',
