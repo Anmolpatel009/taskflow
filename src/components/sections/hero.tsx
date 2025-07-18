@@ -13,20 +13,17 @@ export default function Hero() {
           
           <div className="text-center md:text-left">
             <h1 className="text-4xl md:text-5xl font-serif-display font-bold mb-6 text-foreground leading-tight">
-              Hire the best developers. Vetted by us, perfect for you!
+              Instantly connect with skilled local freelancers.
             </h1>
             <p className="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-muted-foreground">
-              TalentFlow is the only freelancer platform that connects you with top-tier talent. We help customers solve any development problem.
+             From house cleaning to high-tech, post a task and get instant notifications from top-rated talent in your area. Meet, collaborate, and get the job done faster.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
-                    <Link href="/signup">Join Now</Link>
+                    <Link href="/signup">Post a Task, It's Free</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link href="/nearby">Find Nearby Freelancers</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/showall">Show All Freelancers</Link>
+                  <Link href="/find-work">Browse Local Tasks</Link>
                 </Button>
             </div>
              <p className="text-sm text-muted-foreground mt-4 text-center md:text-left">
@@ -34,12 +31,12 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative w-full h-[550px] flex flex-col md:flex-row items-center justify-center gap-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 h-[550px] w-full">
               {/* Rotating Earth */}
               <div className="relative h-80 w-80">
                   <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
                       <Image
-                          src="https://storage.googleapis.com/project-hackathon-2024-assets/earth-globe.png"
+                          src="https://storage.googleapis.com/project-hackathon-2024-assets/globe-transparent.png"
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
@@ -59,7 +56,7 @@ export default function Hero() {
                           <path id="circle" d="M 50, 50 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"></path>
                         </defs>
                         <text>
-                          <textPath xlinkHref="#circle" className="fill-foreground font-bold text-[6px] tracking-widest uppercase">
+                          <textPath xlinkHref="#circle" className="fill-primary-foreground dark:fill-primary font-bold text-[6px] tracking-widest uppercase">
                             Connect with talent across the globe •
                           </textPath>
                         </text>

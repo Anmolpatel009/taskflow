@@ -17,9 +17,9 @@ import {
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
   { href: '/find-talent', label: 'Find Talent' },
-  { href: '/why-us', label: 'Why Us' },
+  { href: '/why-talentflow', label: 'Why TalentFlow' },
   { href: '/one-percent-club', label: 'The 1% Club' },
-  { href: '/ai-skill-test', label: 'AI Skill Test' },
+  { href: '/build-together', label: 'Build Together' },
 ];
 
 const NavLink = ({ href, label, hasDropdown = false }: { href: string, label: string, hasDropdown?: boolean }) => (
