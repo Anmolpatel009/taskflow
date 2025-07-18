@@ -43,7 +43,7 @@ export default function Hero() {
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
-                          className="object-cover animate-spin-slow scale-150"
+                          className="object-cover animate-spin-slow"
                       />
                   </div>
                   {/* Skill Nodes */}
