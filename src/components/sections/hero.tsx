@@ -49,7 +49,20 @@ export default function Hero() {
                   <div className="absolute top-[50%] left-[20%] h-3 w-3 rounded-full bg-red-500 animate-ping-slow animation-delay-300"></div>
                   <div className="absolute top-[70%] left-[70%] h-2 w-2 rounded-full bg-yellow-400 animate-ping-slow animation-delay-500"></div>
                   <div className="absolute top-[30%] left-[80%] h-2 w-2 rounded-full bg-green-400 animate-ping-slow animation-delay-700"></div>
-                   <div className="absolute bottom-[15%] right-[40%] h-3 w-3 rounded-full bg-purple-500 animate-ping-slow animation-delay-900"></div>
+                  <div className="absolute bottom-[15%] right-[40%] h-3 w-3 rounded-full bg-purple-500 animate-ping-slow animation-delay-900"></div>
+                   {/* Rotating Text Strip */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-reverse-slow">
+                        <defs>
+                          <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"></path>
+                        </defs>
+                        <text>
+                          <textPath xlinkHref="#circle" className="fill-white font-bold text-[6px] tracking-widest uppercase">
+                            Connect with talent across the globe •
+                          </textPath>
+                        </text>
+                      </svg>
+                    </div>
               </div>
               {/* Front square image */}
               <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">

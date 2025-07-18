@@ -119,6 +119,10 @@ export default {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
         },
+        "spin-reverse-slow": {
+          from: { transform: 'rotate(360deg)' },
+          to: { transform: 'rotate(0deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -130,6 +134,7 @@ export default {
         "rgb-border": 'rgb-border 4s linear infinite',
         "tilt-shaking": 'tilt-shaking 4s infinite',
         "spin-slow": 'spin-slow 25s linear infinite',
+        "spin-reverse-slow": 'spin-reverse-slow 25s linear infinite',
       },
     },
   },
