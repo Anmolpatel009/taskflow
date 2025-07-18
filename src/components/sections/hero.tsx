@@ -89,9 +89,9 @@ export default function Hero() {
               {/* Front square image */}
               <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
                   <Image
-                      src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      data-ai-hint="man developer"
-                      alt="Male developer"
+                      src="https://placehold.co/600x400.png"
+                      data-ai-hint="diverse professionals"
+                      alt="A pool of diverse professionals"
                       fill
                       className="object-cover"
                   />
