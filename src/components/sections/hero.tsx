@@ -54,7 +54,7 @@ export default function Hero() {
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-reverse-slow">
                         <defs>
-                          <path id="circle" d="M 50, 50 m -48, 0 a 48,48 0 1,1 96,0 a 48,48 0 1,1 -96,0"></path>
+                          <path id="circle" d="M 50, 50 m -47, 0 a 47,47 0 1,1 94,0 a 47,47 0 1,1 -94,0"></path>
                         </defs>
                         <text>
                           <textPath xlinkHref="#circle" className="fill-white font-bold text-[6px] tracking-widest uppercase">
