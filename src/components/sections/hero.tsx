@@ -32,8 +32,8 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative h-96 flex items-center justify-center">
-            <div className="absolute inset-0 h-96 w-96 rounded-full overflow-hidden shadow-lg z-10 border-8 border-accent/50 mx-auto my-auto">
+          <div className="flex justify-center items-center gap-4">
+            <div className="relative h-80 w-80 rounded-full overflow-hidden shadow-lg border-8 border-accent/50">
               <Image
                 src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 data-ai-hint="woman developer"
@@ -42,20 +42,14 @@ export default function Hero() {
                 className="object-cover"
               />
             </div>
-            
-            <div className="absolute h-80 w-80 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20 flex items-center justify-center overflow-hidden">
-                <Image
+            <div className="relative h-64 w-64 rounded-lg overflow-hidden shadow-2xl">
+                 <Image
                     src="https://images.pexels.com/photos/4623519/pexels-photo-4623519.jpeg"
                     data-ai-hint="business meeting"
                     alt="Business meeting"
                     fill
                     className="object-cover"
                 />
-            </div>
-
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-border/50 rounded-lg"></div>
-                <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-border/50 rounded-full"></div>
             </div>
           </div>
         </div>
