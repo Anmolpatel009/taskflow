@@ -67,7 +67,7 @@ export default function Hero() {
               {/* Front square image */}
               <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
                   <Image
-                      src="https://storage.googleapis.com/project-hackathon-2024-assets/56f73111-de1a-4638-b710-3882a938c641.jpeg"
+                      src="https://placehold.co/600x400.png"
                       data-ai-hint="professional handshake"
                       alt="A professional handshake sealing a deal in a modern office."
                       fill
