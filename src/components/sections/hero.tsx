@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-6 text-gray-800 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-6 text-foreground leading-tight">
               Hire the best developers. Vetted by us, perfect for you!
             </h1>
             <p className="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-muted-foreground">
@@ -50,8 +50,8 @@ export default function Hero() {
             <div className="absolute h-48 w-48 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20"></div>
 
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-gray-200 rounded-lg"></div>
-                <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-gray-200 rounded-full"></div>
+                <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-border rounded-lg"></div>
+                <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-border rounded-full"></div>
             </div>
           </div>
         </div>
