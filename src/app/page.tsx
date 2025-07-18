@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import Header from '@/components/layout/header';
 import Hero from '@/components/sections/hero';
-import Services from '@/components/sections/services';
 import TaskList from '@/components/task-list';
 import TaskSubmissionModal from '@/components/task-submission-modal';
 import AiRecommender from '@/components/sections/ai-recommender';
@@ -20,9 +19,8 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <Services />
         
-        <section className="py-16 lg:py-24">
+        <section className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-900">
             <div className="container">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                     <div>

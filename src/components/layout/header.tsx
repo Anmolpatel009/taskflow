@@ -19,8 +19,8 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+    <header className="bg-background w-full border-b">
+      <div className="container flex h-20 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="font-bold text-2xl font-headline text-primary">
@@ -47,7 +47,7 @@ export default function Header() {
               <Link href="/login">Log In</Link>
             </Button>
             <Button asChild>
-              <Link href="/signup">Sign Up</Link>
+              <Link href="/signup">Start a Project</Link>
             </Button>
           </div>
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -85,7 +85,7 @@ export default function Header() {
                       <Link href="/login">Log In</Link>
                     </Button>
                     <Button asChild>
-                      <Link href="/signup">Sign Up</Link>
+                      <Link href="/signup">Start a Project</Link>
                     </Button>
                 </div>
               </div>
