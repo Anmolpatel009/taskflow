@@ -39,7 +39,7 @@ export default function Hero() {
             
             <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-lg">
                  <Image
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=400&h=400&fit=crop"
+                    src="https://images.pexels.com/photos/4623519/pexels-photo-4623519.jpeg"
                     data-ai-hint="business meeting"
                     alt="Professionals shaking hands in a meeting"
                     fill
