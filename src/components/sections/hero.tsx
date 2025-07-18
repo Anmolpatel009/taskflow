@@ -39,7 +39,7 @@ export default function Hero() {
               <div className="relative h-80 w-80">
                   <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
                       <Image
-                          src="https://storage.googleapis.com/project-hackathon-2024-assets/7133333.png"
+                          src="https://storage.googleapis.com/project-hackathon-2024-assets/earth-globe.png"
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
@@ -59,7 +59,7 @@ export default function Hero() {
                           <path id="circle" d="M 50, 50 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"></path>
                         </defs>
                         <text>
-                          <textPath xlinkHref="#circle" className="fill-white font-bold text-[6px] tracking-widest uppercase">
+                          <textPath xlinkHref="#circle" className="fill-foreground font-bold text-[6px] tracking-widest uppercase">
                             Connect with talent across the globe •
                           </textPath>
                         </text>
