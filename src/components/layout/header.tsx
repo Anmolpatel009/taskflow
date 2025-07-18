@@ -22,12 +22,28 @@ const navLinks = [
   { href: '/build-together', label: 'Build Together' },
 ];
 
-const NavLink = ({ href, label, hasDropdown = false }: { href: string, label: string, hasDropdown?: boolean }) => (
-    <Link href={href} className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80">
-        {label}
-        {hasDropdown && <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />}
-    </Link>
-);
+const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { href?: string, label: string, hasDropdown?: boolean, children?: React.ReactNode, onLinkClick?: () => void }) => {
+    if (href) {
+        return (
+            <Link href={href} className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80" onClick={onLinkClick}>
+                {label}
+            </Link>
+        );
+    }
+    return (
+         <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <button className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80 outline-none">
+                    {label}
+                    <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
+                </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+                {children}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+};
 
 
 export default function Header() {
@@ -49,6 +65,14 @@ export default function Header() {
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
+           <NavLink label="Explore" hasDropdown>
+                <DropdownMenuItem asChild>
+                    <Link href="/nearby">Nearby</Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                    <Link href="/showall">Show All</Link>
+                </DropdownMenuItem>
+            </NavLink>
         </nav>
 
         <div className="hidden lg:flex items-center space-x-2">
@@ -91,6 +115,8 @@ export default function Header() {
                         {link.label}
                         </Link>
                     ))}
+                     <Link href="/nearby" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Nearby</Link>
+                     <Link href="/showall" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Show All</Link>
                     </nav>
                     <div className="mt-auto flex flex-col gap-2">
                         <Button variant="outline" asChild>
