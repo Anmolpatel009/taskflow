@@ -27,7 +27,7 @@ export default function Hero() {
           </div>
 
           <div className="relative h-96 flex items-center justify-center">
-            <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10">
+            <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10 border-8 border-secondary">
                 <Image
                     src="https://images.unsplash.com/photo-1554310624-9449d3a43323?q=80&w=400&h=400&fit=crop"
                     data-ai-hint="woman developer"
