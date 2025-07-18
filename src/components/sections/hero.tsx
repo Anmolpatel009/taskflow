@@ -32,7 +32,7 @@ export default function Hero() {
             {/* Woman with laptop image (circle) */}
             <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10">
                 <Image
-                    src="https://placehold.co/400x400.png"
+                    src="https://images.unsplash.com/photo-1554310624-9449d3a43323?q=80&w=400&h=400&fit=crop"
                     data-ai-hint="woman developer"
                     alt="Female developer working on a laptop"
                     layout="fill"
