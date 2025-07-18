@@ -34,7 +34,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative w-full h-[550px] md:h-96 flex flex-col md:flex-row items-center justify-center gap-8">
+          <div className="relative w-full h-[550px] flex flex-col md:flex-row items-center justify-center gap-8">
               {/* Rotating Earth */}
               <div className="relative h-80 w-80">
                   <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
@@ -43,7 +43,7 @@ export default function Hero() {
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
-                          className="object-cover animate-spin-slow"
+                          className="object-cover animate-spin-slow scale-110"
                       />
                   </div>
                   {/* Skill Nodes */}
