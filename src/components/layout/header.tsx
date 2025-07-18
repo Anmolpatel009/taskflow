@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { ThemeToggle } from '../theme-toggle';
 
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
@@ -43,6 +44,7 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <div className="hidden md:flex items-center space-x-2">
+             <ThemeToggle />
             <Button variant="ghost" asChild>
               <Link href="/login">Log In</Link>
             </Button>
@@ -58,14 +60,13 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-                <SheetHeader className="border-b pb-4">
-                   <SheetTitle className="sr-only">Menu</SheetTitle>
-                   <SheetDescription className="sr-only">Main navigation menu</SheetDescription>
+                <SheetHeader className="border-b pb-4 flex flex-row justify-between items-center">
                    <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                      <span className="font-bold text-2xl font-headline text-primary">
                       TalentFlow
                     </span>
                   </Link>
+                   <ThemeToggle />
                 </SheetHeader>
               <div className="flex flex-col h-full">
                 <nav className="flex flex-col gap-4 mt-8">
