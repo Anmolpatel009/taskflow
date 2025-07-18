@@ -20,10 +20,10 @@ export default function Hero() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
-                    <Link href="/signup">Post a Task, It's Free</Link>
+                    <Link href="/signup">Post a Task</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link href="/find-work">Browse Local Tasks</Link>
+                  <Link href="/find-work">Find Work</Link>
                 </Button>
             </div>
              <p className="text-sm text-muted-foreground mt-4 text-center md:text-left">
@@ -40,7 +40,7 @@ export default function Hero() {
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
-                          className="object-cover animate-spin-slow"
+                          className="object-cover"
                       />
                   </div>
                   {/* Skill Nodes */}
