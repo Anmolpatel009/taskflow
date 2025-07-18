@@ -37,14 +37,7 @@ export default function Hero() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 h-full w-full">
               {/* Rotating Earth */}
               <div className="relative h-80 w-80">
-                  <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
-                      <Image
-                          src="https://storage.googleapis.com/project-hackathon-2024-assets/globe-transparent.png"
-                          data-ai-hint="glowing earth"
-                          alt="Rotating earth with glowing city lights"
-                          fill
-                          className="object-cover"
-                      />
+                  <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg bg-black">
                   </div>
                   {/* Skill Nodes */}
                   <div className="absolute top-[20%] left-[50%] h-2 w-2 rounded-full bg-cyan-400 animate-ping-slow"></div>
