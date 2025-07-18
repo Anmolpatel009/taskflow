@@ -9,7 +9,7 @@ export default function TaskManager() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            {/* Add comments here indicating where to emphasize benefits and human connection */}
+            {/* TODO: Add comments here indicating where to emphasize benefits and human connection */}
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
               Our intuitive task manager makes it easy to post tasks, track progress, and communicate with service providers.
             </p>
@@ -18,7 +18,7 @@ export default function TaskManager() {
             </p>
           </div>
           <div className="relative">
-            {/* Add comments here indicating where to incorporate human-centric imagery */}
+            {/* TODO: Add comments here indicating where to incorporate human-centric imagery */}
             {/* Placeholder for an image showing the task management process */}
             <img
               src="https://via.placeholder.com/600x400"

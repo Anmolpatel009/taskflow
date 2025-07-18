@@ -18,10 +18,10 @@ export default function Hero() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start custom-btn-container">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/find-talent">Find Talent</Link>
+                <Link href="/showall">Find Talent</Link>
               </Button>
               <Button asChild size="lg" variant="secondary">
-                <Link href="/find-work">Find Work</Link>
+                <Link href="/nearby">Find Work</Link>
               </Button>
             </div>
           </div>
