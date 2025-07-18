@@ -20,10 +20,13 @@ export default function Hero() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
-                    <Link href="/signup">Post a Task</Link>
+                    <Link href="/signup">Join Now</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link href="/find-work">Find Work</Link>
+                  <Link href="/showall">Show All</Link>
+                </Button>
+                 <Button asChild size="lg" variant="outline">
+                  <Link href="/nearby">Show Nearby</Link>
                 </Button>
             </div>
              <p className="text-sm text-muted-foreground mt-4 text-center md:text-left">
@@ -31,7 +34,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 h-[550px] w-full">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 h-full w-full">
               {/* Rotating Earth */}
               <div className="relative h-80 w-80">
                   <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
