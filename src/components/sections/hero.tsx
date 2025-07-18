@@ -39,7 +39,7 @@ export default function Hero() {
               <div className="relative h-80 w-80">
                   <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
                       <Image
-                          src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                          src="https://storage.googleapis.com/project-hackathon-2024-assets/7133333.png"
                           data-ai-hint="glowing earth"
                           alt="Rotating earth with glowing city lights"
                           fill
