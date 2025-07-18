@@ -1,10 +1,11 @@
+
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
@@ -57,14 +58,16 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between border-b pb-4">
-                  <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <SheetHeader className="border-b pb-4">
+                   <SheetTitle className="sr-only">Menu</SheetTitle>
+                   <SheetDescription className="sr-only">Main navigation menu</SheetDescription>
+                   <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                      <span className="font-bold text-2xl font-headline text-primary">
                       Talent<span className="text-secondary">Flow</span>
                     </span>
                   </Link>
-                </div>
+                </SheetHeader>
+              <div className="flex flex-col h-full">
                 <nav className="flex flex-col gap-4 mt-8">
                   {navLinks.map((link) => (
                     <Link
