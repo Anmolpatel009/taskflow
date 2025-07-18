@@ -3,6 +3,16 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 
+const SKILLS = [
+  { name: 'React', duration: '12s', delay: '0s' },
+  { name: 'Node.js', duration: '10s', delay: '-2s' },
+  { name: 'UI/UX', duration: '15s', delay: '-5s' },
+  { name: 'Graphic Design', duration: '11s', delay: '-1s' },
+  { name: 'SEO', duration: '13s', delay: '-3s' },
+  { name: 'Copywriting', duration: '9s', delay: '-4s' },
+  { name: 'Python', duration: '14s', delay: '-6s' },
+];
+
 export default function Hero() {
   return (
     <section className="bg-background text-foreground py-20 md:py-28">
@@ -53,8 +63,25 @@ export default function Hero() {
                       className="object-cover"
                   />
               </div>
-              {/* Blank white square */}
-              <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg"></div>
+              {/* Skill cloud square */}
+              <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background/80 backdrop-blur-sm transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg overflow-hidden">
+                <div className="relative w-full h-full">
+                  {SKILLS.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className="absolute text-muted-foreground/80 text-xs font-medium animate-float"
+                      style={{
+                        animationDuration: skill.duration,
+                        animationDelay: skill.delay,
+                        top: `${Math.random() * 80 + 10}%`,
+                        left: `${Math.random() * 60 + 10}%`,
+                      }}
+                    >
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
           </div>
         </div>
       </div>
