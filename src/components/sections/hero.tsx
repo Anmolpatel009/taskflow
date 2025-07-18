@@ -39,9 +39,9 @@ export default function Hero() {
             
             <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-lg">
                  <Image
-                    src="https://placehold.co/400x400.png"
-                    data-ai-hint="male professional smiling"
-                    alt="Male professional smiling"
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=400&h=400&fit=crop"
+                    data-ai-hint="business meeting"
+                    alt="Professionals shaking hands in a meeting"
                     fill
                     className="object-cover saturate-[0.5] contrast-125 opacity-90"
                 />
