@@ -28,10 +28,10 @@ export default function TaskList() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="flex flex-col gap-6">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="bg-card rounded-lg p-4">
-            <Skeleton className="h-[400px] w-full" />
+            <Skeleton className="h-[250px] w-full" />
           </div>
         ))}
       </div>
@@ -48,7 +48,7 @@ export default function TaskList() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+    <div className="flex flex-col gap-6">
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}
