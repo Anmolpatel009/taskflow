@@ -38,7 +38,7 @@ export default function Hero() {
               {/* Back circular image */}
               <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
                   <Image
-                      src="https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                      src="https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                       data-ai-hint="glowing earth"
                       alt="Rotating earth with glowing nodes"
                       fill
