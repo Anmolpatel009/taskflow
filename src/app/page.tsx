@@ -20,7 +20,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         
-        <section className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-900">
+        <section className="py-16 lg:py-24 bg-secondary">
             <div className="container">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                     <div>

@@ -16,24 +16,24 @@ export default function Hero() {
             <p className="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-muted-foreground">
               TalentFlow is the only freelancer platform that connects you with top-tier talent. We help customers solve any development problem.
             </p>
-            <div className="flex flex-col items-center md:items-start gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Button asChild size="lg">
                     <Link href="/signup">Start a Project</Link>
                 </Button>
-                <p className="text-sm text-muted-foreground">
-                    Free estimate &nbsp;•&nbsp; No obligation to hire &nbsp;•&nbsp; 100% risk-free
-                </p>
             </div>
+             <p className="text-sm text-muted-foreground mt-4 text-center md:text-left">
+                Free estimate &nbsp;•&nbsp; No obligation to hire &nbsp;•&nbsp; 100% risk-free
+            </p>
           </div>
 
           <div className="relative h-96 flex items-center justify-center">
-            <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10 border-8 border-secondary">
+            <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10 border-8 border-accent">
                 <Image
                     src="https://images.unsplash.com/photo-1554310624-9449d3a43323?q=80&w=400&h=400&fit=crop"
                     data-ai-hint="woman developer"
                     alt="Female developer working on a laptop"
                     fill
-                    className="object-cover saturate-[0.5] contrast-125 opacity-90"
+                    className="object-cover"
                 />
             </div>
             
@@ -43,11 +43,11 @@ export default function Hero() {
                     data-ai-hint="business meeting"
                     alt="Professionals shaking hands in a meeting"
                     fill
-                    className="object-cover saturate-[0.5] contrast-125 opacity-90"
+                    className="object-cover"
                 />
             </div>
             
-            <div className="absolute h-48 w-48 bg-white/70 backdrop-blur-sm rounded-lg shadow-2xl z-20"></div>
+            <div className="absolute h-48 w-48 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20"></div>
 
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-gray-200 rounded-lg"></div>

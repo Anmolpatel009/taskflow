@@ -37,7 +37,7 @@ export default function TaskCard({ task }: TaskCardProps) {
 
   return (
     <>
-      <Card className="w-full transition-all hover:shadow-md border-l-4 border-primary">
+      <Card className="w-full transition-all hover:shadow-md border-l-4 border-accent">
         <CardHeader>
           <div className="flex justify-between items-start">
             <CardTitle className="font-headline text-lg md:text-xl">{task.title}</CardTitle>

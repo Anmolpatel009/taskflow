@@ -48,11 +48,11 @@ export default function AiRecommender() {
   }
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-900">
+    <section className="py-16 lg:py-24 bg-secondary">
       <div className="container">
         <Card className="max-w-3xl mx-auto shadow-lg">
           <CardHeader className="text-center">
-            <div className="flex justify-center items-center gap-2 text-primary">
+            <div className="flex justify-center items-center gap-2 text-accent">
                 <Sparkles className="h-8 w-8" />
                 <CardTitle className="font-headline text-3xl">Smart Service Recommender</CardTitle>
             </div>

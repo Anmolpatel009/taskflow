@@ -37,7 +37,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-secondary text-secondary-foreground">
       <div className="container py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {Object.entries(footerLinks).map(([title, links]) => (
@@ -46,7 +46,7 @@ export default function Footer() {
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                    <Link href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -55,7 +55,7 @@ export default function Footer() {
               {title === 'Community' && (
                 <div className="flex space-x-4 pt-2">
                   {socialLinks.map((social) => (
-                    <Link key={social.name} href={social.href} className="text-gray-400 hover:text-white transition-colors">
+                    <Link key={social.name} href={social.href} className="text-muted-foreground hover:text-foreground transition-colors">
                       {social.icon}
                     </Link>
                   ))}
@@ -64,7 +64,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500">
+        <div className="mt-12 pt-8 border-t border-border text-center text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} TalentFlow. All rights reserved.</p>
         </div>
       </div>

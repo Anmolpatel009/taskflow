@@ -115,7 +115,7 @@ export default function SignupPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+      <main className="flex-1 flex items-center justify-center bg-secondary p-4">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-2xl">Sign Up</CardTitle>

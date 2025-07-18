@@ -24,7 +24,7 @@ export default function Header() {
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="font-bold text-2xl font-headline text-primary">
-              Talent<span className="text-secondary">Flow</span>
+              TalentFlow
             </span>
           </Link>
         </div>
@@ -43,7 +43,7 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <div className="hidden md:flex items-center space-x-2">
-            <Button variant="outline" asChild>
+            <Button variant="ghost" asChild>
               <Link href="/login">Log In</Link>
             </Button>
             <Button asChild>
@@ -63,7 +63,7 @@ export default function Header() {
                    <SheetDescription className="sr-only">Main navigation menu</SheetDescription>
                    <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                      <span className="font-bold text-2xl font-headline text-primary">
-                      Talent<span className="text-secondary">Flow</span>
+                      TalentFlow
                     </span>
                   </Link>
                 </SheetHeader>
