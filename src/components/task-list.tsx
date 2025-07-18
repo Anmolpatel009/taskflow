@@ -29,7 +29,7 @@ export default function TaskList() {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="w-[250px] h-[350px] bg-muted rounded-lg p-4">
+          <div key={i} className="w-full max-w-[300px] h-[450px] bg-card rounded-lg p-4">
             <Skeleton className="h-full w-full" />
           </div>
         ))}
