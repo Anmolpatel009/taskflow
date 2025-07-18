@@ -16,7 +16,7 @@ export default function Hero() {
             <p className="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-10 text-primary-foreground/90 animate-fade-in-up drop-shadow-sm">
               Our platform connects skilled individuals with businesses and individuals who need their services. From house cleaning to professional consulting, find opportunities and talent that match your needs.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start custom-btn-container">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
                 <Link href="/showall">Find Talent</Link>
               </Button>
