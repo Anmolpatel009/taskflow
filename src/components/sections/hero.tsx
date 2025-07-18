@@ -65,7 +65,7 @@ export default function Hero() {
                     </div>
               </div>
               {/* Front square image */}
-              <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
+              <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20 relative">
                   <Image
                       src="https://placehold.co/600x400.png"
                       data-ai-hint="professional handshake"
