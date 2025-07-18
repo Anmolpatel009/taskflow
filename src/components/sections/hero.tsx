@@ -32,8 +32,9 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="flex justify-center items-center gap-4">
-            <div className="relative h-80 w-80 rounded-full overflow-hidden shadow-lg border-8 border-accent/50">
+          <div className="relative w-full h-96 flex items-center justify-center">
+            {/* Back circular image */}
+            <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg">
               <Image
                 src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 data-ai-hint="woman developer"
@@ -42,7 +43,8 @@ export default function Hero() {
                 className="object-cover"
               />
             </div>
-            <div className="relative h-64 w-64 rounded-lg overflow-hidden shadow-2xl">
+            {/* Front square image */}
+            <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-2xl transform -rotate-6">
                  <Image
                     src="https://images.pexels.com/photos/4623519/pexels-photo-4623519.jpeg"
                     data-ai-hint="business meeting"
