@@ -25,7 +25,7 @@ const navLinks = [
 const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { href?: string, label: string, hasDropdown?: boolean, children?: React.ReactNode, onLinkClick?: () => void }) => {
     if (href) {
         return (
-            <Link href={href} className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80" onClick={onLinkClick}>
+            <Link href={href} className="group nav-btn flex items-center gap-1 transition-colors hover:text-primary text-foreground/80" onClick={onLinkClick}>
                 {label}
             </Link>
         );
@@ -33,7 +33,7 @@ const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { 
     return (
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <button className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80 outline-none">
+                <button className="group nav-btn flex items-center gap-1 transition-colors hover:text-primary text-foreground/80 outline-none">
                     {label}
                     <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
                 </button>
@@ -61,7 +61,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-8 text-sm font-medium">
+        <nav className="hidden lg:flex items-center space-x-2 text-sm font-medium">
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
