@@ -46,7 +46,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${ptSans.variable} ${lora.variable} font-body antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
