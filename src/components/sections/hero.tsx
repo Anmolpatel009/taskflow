@@ -34,7 +34,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative w-full h-96 hidden md:flex items-center justify-center">
+          <div className="relative w-full h-96 flex items-center justify-center">
               {/* Back circular image */}
               <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
                   <Image
@@ -65,7 +65,7 @@ export default function Hero() {
                     </div>
               </div>
               {/* Front square image */}
-              <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
+              <div className="relative top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
                   <Image
                       src="https://placehold.co/600x400.png"
                       data-ai-hint="professional handshake"
