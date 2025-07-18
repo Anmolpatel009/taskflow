@@ -3,6 +3,15 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 
+const skills = [
+  { name: 'Development', position: 'top-4 left-8', duration: '10s' },
+  { name: 'UI/UX Design', position: 'top-16 right-4', duration: '12s' },
+  { name: 'Copywriting', position: 'top-28 left-12', duration: '9s' },
+  { name: 'SEO', position: 'bottom-24 right-10', duration: '11s' },
+  { name: 'Marketing', position: 'bottom-12 left-4', duration: '13s' },
+  { name: 'Illustration', position: 'bottom-4 right-16', duration: '10s' },
+];
+
 export default function Hero() {
   return (
     <section className="bg-background text-foreground py-20 md:py-32">
@@ -53,7 +62,21 @@ export default function Hero() {
                 />
             </div>
             
-            <div className="absolute h-48 w-48 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20"></div>
+            <div className="absolute h-64 w-64 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20 flex items-center justify-center overflow-hidden">
+              <div className="relative w-full h-full">
+                {skills.map((skill, index) => (
+                  <div
+                    key={skill.name}
+                    className={`absolute ${skill.position} animate-float`}
+                    style={{ animationDuration: skill.duration, animationDelay: `${index * 1.5}s` }}
+                  >
+                    <div className="px-3 py-1.5 bg-background/80 rounded-full shadow-md text-sm font-semibold text-foreground whitespace-nowrap">
+                      {skill.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-border rounded-lg"></div>
