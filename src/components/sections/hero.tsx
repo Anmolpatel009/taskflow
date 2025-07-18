@@ -10,6 +10,11 @@ const skills = [
   { name: 'SEO', position: 'bottom-24 right-10', duration: '11s' },
   { name: 'Marketing', position: 'bottom-12 left-4', duration: '13s' },
   { name: 'Illustration', position: 'bottom-4 right-16', duration: '10s' },
+  { name: 'Video Editing', position: 'top-1/2 left-1/4', duration: '11s' },
+  { name: 'React', position: 'top-1/3 right-1/4', duration: '12s' },
+  { name: 'Node.js', position: 'bottom-1/3 left-1/3', duration: '10s' },
+  { name: 'Python', position: 'bottom-1/4 right-1/2', duration: '13s' },
+  { name: 'DevOps', position: 'top-10 right-20', duration: '9s' },
 ];
 
 export default function Hero() {
@@ -42,27 +47,17 @@ export default function Hero() {
           </div>
 
           <div className="relative h-96 flex items-center justify-center">
-            <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full overflow-hidden shadow-lg z-10 border-8 border-accent">
+            <div className="absolute inset-0 h-96 w-96 rounded-full overflow-hidden shadow-lg z-10 border-8 border-accent/50 mx-auto my-auto">
                 <Image
-                    src="https://images.unsplash.com/photo-1554310624-9449d3a43323?q=80&w=400&h=400&fit=crop"
-                    data-ai-hint="woman developer"
-                    alt="Female developer working on a laptop"
+                    src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    data-ai-hint="earth space"
+                    alt="The Earth from space"
                     fill
                     className="object-cover"
                 />
             </div>
             
-            <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-lg">
-                 <Image
-                    src="https://images.pexels.com/photos/4623519/pexels-photo-4623519.jpeg"
-                    data-ai-hint="business meeting"
-                    alt="Professionals shaking hands in a meeting"
-                    fill
-                    className="object-cover"
-                />
-            </div>
-            
-            <div className="absolute h-64 w-64 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20 flex items-center justify-center overflow-hidden">
+            <div className="absolute h-80 w-80 bg-white/30 backdrop-blur-sm rounded-lg shadow-2xl z-20 flex items-center justify-center overflow-hidden">
               <div className="relative w-full h-full">
                 {skills.map((skill, index) => (
                   <div
@@ -70,7 +65,7 @@ export default function Hero() {
                     className={`absolute ${skill.position} animate-float`}
                     style={{ animationDuration: skill.duration, animationDelay: `${index * 1.5}s` }}
                   >
-                    <div className="px-3 py-1.5 bg-background/80 rounded-full shadow-md text-sm font-semibold text-foreground whitespace-nowrap">
+                    <div className="px-2 py-1 bg-background/80 rounded-full shadow-md text-xs font-semibold text-foreground whitespace-nowrap">
                       {skill.name}
                     </div>
                   </div>
@@ -79,8 +74,8 @@ export default function Hero() {
             </div>
 
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-border rounded-lg"></div>
-                <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-border rounded-full"></div>
+                <div className="absolute top-[-2rem] left-[-2rem] w-80 h-80 border-2 border-border/50 rounded-lg"></div>
+                <div className="absolute bottom-[-2rem] right-[-2rem] w-80 h-80 border-2 border-border/50 rounded-full"></div>
             </div>
           </div>
         </div>
