@@ -11,12 +11,13 @@ const ALL_SKILLS = [
   'Java', 'Go', 'Firebase', 'Next.js', 'Testing', 'AI/ML'
 ];
 
-// Function to generate a random position and animation delay
+// Function to generate a random position and animation style
 const generateSkillStyle = () => {
-  const duration = Math.random() * 5 + 8; // Random duration between 8-13s
+  const duration = Math.random() * 8 + 10; // Random duration between 10-18s
   const delay = Math.random() * 5; // Random delay up to 5s
-  const top = `${Math.random() * 80 + 10}%`;
-  const left = `${Math.random() * 70 + 10}%`;
+  const top = `${Math.random() * 80 + 10}%`; // Random top between 10-90%
+  const left = `${Math.random() * 80 + 10}%`; // Random left between 10-90%
+  
   return {
     animation: `float ${duration}s ease-in-out ${delay}s infinite`,
     top,
@@ -25,20 +26,22 @@ const generateSkillStyle = () => {
 };
 
 export default function Hero() {
-  const [visibleSkills, setVisibleSkills] = useState([ALL_SKILLS[0]]);
+  const [visibleSkills, setVisibleSkills] = useState<{ skill: string; style: React.CSSProperties; }[]>([]);
 
   useEffect(() => {
-    // Start with the first skill, then add a new one every 2 seconds
+    // Start with the first skill
+    setVisibleSkills([{ skill: ALL_SKILLS[0], style: generateSkillStyle() }]);
+
     const interval = setInterval(() => {
       setVisibleSkills(currentSkills => {
         if (currentSkills.length < ALL_SKILLS.length) {
-          return [...currentSkills, ALL_SKILLS[currentSkills.length]];
+          const newSkill = ALL_SKILLS[currentSkills.length];
+          return [...currentSkills, { skill: newSkill, style: generateSkillStyle() }];
         }
-        // Once all skills are visible, clear the interval
         clearInterval(interval);
         return currentSkills;
       });
-    }, 2000); // Add a new skill every 2 seconds
+    }, 2500); // Add a new skill every 2.5 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -95,17 +98,19 @@ export default function Hero() {
               {/* Skill cloud square */}
               <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background/80 backdrop-blur-sm transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg overflow-hidden">
                 <div className="relative w-full h-full">
-                  {visibleSkills.map((skill) => (
+                  {visibleSkills.map(({ skill, style }) => (
                     <div
                       key={skill}
-                      className="absolute flex items-center justify-center h-16 w-16"
-                      style={generateSkillStyle()}
+                      className="absolute"
+                      style={style}
                     >
-                      <div className="absolute h-full w-full bg-primary/10 rounded-full animate-ping-slow"></div>
-                       <div className="relative flex items-center justify-center h-12 w-12 rounded-full bg-background/80 shadow-md">
-                        <span className="text-xs font-semibold text-foreground">
-                          {skill}
-                        </span>
+                       <div className="relative flex items-center justify-center h-16 w-16">
+                         <div className="absolute h-full w-full rounded-full animate-rgb-border"></div>
+                         <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-background/90 shadow-md">
+                            <span className="text-xs font-semibold text-foreground opacity-100">
+                              {skill}
+                            </span>
+                         </div>
                       </div>
                     </div>
                   ))}
