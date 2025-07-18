@@ -1,19 +1,48 @@
 
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
-const SKILLS = [
-  { name: 'React', duration: '12s', delay: '0s' },
-  { name: 'Node.js', duration: '10s', delay: '-2s' },
-  { name: 'UI/UX', duration: '15s', delay: '-5s' },
-  { name: 'Graphic Design', duration: '11s', delay: '-1s' },
-  { name: 'SEO', duration: '13s', delay: '-3s' },
-  { name: 'Copywriting', duration: '9s', delay: '-4s' },
-  { name: 'Python', duration: '14s', delay: '-6s' },
+const ALL_SKILLS = [
+  'React', 'Node.js', 'UI/UX', 'Graphic Design', 'SEO', 'Copywriting', 'Python',
+  'Java', 'Go', 'Firebase', 'Next.js', 'Testing', 'AI/ML'
 ];
 
+// Function to generate a random position and animation delay
+const generateSkillStyle = () => {
+  const duration = Math.random() * 5 + 8; // Random duration between 8-13s
+  const delay = Math.random() * 5; // Random delay up to 5s
+  const top = `${Math.random() * 80 + 10}%`;
+  const left = `${Math.random() * 70 + 10}%`;
+  return {
+    animation: `float ${duration}s ease-in-out ${delay}s infinite`,
+    top,
+    left,
+  };
+};
+
 export default function Hero() {
+  const [visibleSkills, setVisibleSkills] = useState([ALL_SKILLS[0]]);
+
+  useEffect(() => {
+    // Start with the first skill, then add a new one every 2 seconds
+    const interval = setInterval(() => {
+      setVisibleSkills(currentSkills => {
+        if (currentSkills.length < ALL_SKILLS.length) {
+          return [...currentSkills, ALL_SKILLS[currentSkills.length]];
+        }
+        // Once all skills are visible, clear the interval
+        clearInterval(interval);
+        return currentSkills;
+      });
+    }, 2000); // Add a new skill every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="bg-background text-foreground py-20 md:py-28">
       <div className="container mx-auto px-4">
@@ -66,19 +95,19 @@ export default function Hero() {
               {/* Skill cloud square */}
               <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background/80 backdrop-blur-sm transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg overflow-hidden">
                 <div className="relative w-full h-full">
-                  {SKILLS.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className="absolute text-muted-foreground/80 text-xs font-medium animate-float"
-                      style={{
-                        animationDuration: skill.duration,
-                        animationDelay: skill.delay,
-                        top: `${Math.random() * 80 + 10}%`,
-                        left: `${Math.random() * 60 + 10}%`,
-                      }}
+                  {visibleSkills.map((skill) => (
+                    <div
+                      key={skill}
+                      className="absolute flex items-center justify-center h-16 w-16"
+                      style={generateSkillStyle()}
                     >
-                      {skill.name}
-                    </span>
+                      <div className="absolute h-full w-full bg-primary/10 rounded-full animate-ping-slow"></div>
+                       <div className="relative flex items-center justify-center h-12 w-12 rounded-full bg-background/80 shadow-md">
+                        <span className="text-xs font-semibold text-foreground">
+                          {skill}
+                        </span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
