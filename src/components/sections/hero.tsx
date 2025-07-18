@@ -5,12 +5,12 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="bg-background text-foreground py-20 md:py-32">
+    <section className="bg-background text-foreground py-20 md:py-28">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-6 text-foreground leading-tight">
+            <h1 className="text-4xl md:text-5xl font-serif-display font-bold mb-6 text-foreground leading-tight">
               Hire the best developers. Vetted by us, perfect for you!
             </h1>
             <p className="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-muted-foreground">
@@ -32,27 +32,29 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative w-full h-96 flex items-center justify-center">
-            {/* Back circular image */}
-            <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg">
-              <Image
-                src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                data-ai-hint="woman developer"
-                alt="Woman developer"
-                fill
-                className="object-cover"
-              />
-            </div>
-            {/* Front square image */}
-            <div className="absolute top-0 left-0 h-64 w-64 rounded-lg overflow-hidden shadow-2xl transform -rotate-6">
-                 <Image
-                    src="https://images.pexels.com/photos/4623519/pexels-photo-4623519.jpeg"
-                    data-ai-hint="business meeting"
-                    alt="Business meeting"
-                    fill
-                    className="object-cover"
-                />
-            </div>
+          <div className="relative w-full h-96 hidden md:flex items-center justify-center">
+              {/* Back circular image */}
+              <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
+                  <Image
+                      src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                      data-ai-hint="woman developer"
+                      alt="Woman developer"
+                      fill
+                      className="object-cover"
+                  />
+              </div>
+              {/* Front square image */}
+              <div className="absolute top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
+                  <Image
+                      src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                      data-ai-hint="man developer"
+                      alt="Male developer"
+                      fill
+                      className="object-cover"
+                  />
+              </div>
+              {/* Blank white square */}
+              <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg"></div>
           </div>
         </div>
       </div>

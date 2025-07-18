@@ -3,10 +3,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '../theme-toggle';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
@@ -16,82 +22,87 @@ const navLinks = [
   { href: '/ai-skill-test', label: 'AI Skill Test' },
 ];
 
+const NavLink = ({ href, label, hasDropdown = false }: { href: string, label: string, hasDropdown?: boolean }) => (
+    <Link href={href} className="group flex items-center gap-1 transition-colors hover:text-primary text-foreground/80">
+        {label}
+        {hasDropdown && <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />}
+    </Link>
+);
+
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-background w-full border-b">
-      <div className="container flex h-20 items-center">
-        <div className="mr-4 flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="font-bold text-2xl font-headline text-primary">
-              TalentFlow
-            </span>
-          </Link>
-        </div>
+    <header className="bg-background w-full border-b sticky top-0 z-40">
+      <div className="container flex h-20 items-center justify-between">
+        <Link href="/" className="flex items-center space-x-2">
+           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 text-primary">
+              <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.071l9 9a.75.75 0 001.071-1.071l-9-9zM12 3a9 9 0 100 18 9 9 0 000-18zM3.75 12a8.25 8.25 0 1116.5 0 8.25 8.25 0 01-16.5 0z" clipRule="evenodd" />
+            </svg>
+          <span className="font-bold text-2xl font-headline text-primary">
+            TalentFlow
+          </span>
+        </Link>
 
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <nav className="hidden lg:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              {link.label}
-            </Link>
+            <NavLink key={link.href} href={link.href} label={link.label} />
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end space-x-2">
-          <div className="hidden md:flex items-center space-x-2">
-             <ThemeToggle />
-            <Button variant="ghost" asChild>
+        <div className="hidden lg:flex items-center space-x-2">
+           <ThemeToggle />
+            <Button variant="outline" asChild>
               <Link href="/login">Log In</Link>
             </Button>
             <Button asChild>
-              <Link href="/signup">Start a Project</Link>
+              <Link href="/signup">Join Now</Link>
             </Button>
-          </div>
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-                <SheetHeader className="border-b pb-4 flex flex-row justify-between items-center">
-                   <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
-                     <span className="font-bold text-2xl font-headline text-primary">
-                      TalentFlow
-                    </span>
-                  </Link>
-                   <ThemeToggle />
-                </SheetHeader>
-              <div className="flex flex-col h-full">
-                <nav className="flex flex-col gap-4 mt-8">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="text-lg font-medium text-foreground/80 hover:text-primary"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </nav>
-                <div className="mt-auto flex flex-col gap-2">
-                   <Button variant="outline" asChild>
-                      <Link href="/login">Log In</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href="/signup">Start a Project</Link>
-                    </Button>
+        </div>
+
+        <div className="lg:hidden flex items-center">
+            <ThemeToggle />
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Toggle Menu</span>
+                </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-full max-w-sm">
+                <div className="flex flex-col h-full">
+                    <div className="border-b pb-4">
+                        <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 text-primary">
+                                <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.071l9 9a.75.75 0 001.071-1.071l-9-9zM12 3a9 9 0 100 18 9 9 0 000-18zM3.75 12a8.25 8.25 0 1116.5 0 8.25 8.25 0 01-16.5 0z" clipRule="evenodd" />
+                            </svg>
+                            <span className="font-bold text-2xl font-headline text-primary">TalentFlow</span>
+                        </Link>
+                    </div>
+                    <nav className="flex flex-col gap-6 mt-8">
+                    {navLinks.map((link) => (
+                        <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-lg font-medium text-foreground/80 hover:text-primary"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                        {link.label}
+                        </Link>
+                    ))}
+                    </nav>
+                    <div className="mt-auto flex flex-col gap-2">
+                        <Button variant="outline" asChild>
+                            <Link href="/login">Log In</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href="/signup">Join Now</Link>
+                        </Button>
+                    </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+                </SheetContent>
+            </Sheet>
         </div>
       </div>
     </header>

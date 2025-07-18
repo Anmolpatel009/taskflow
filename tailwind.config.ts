@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         headline: ["var(--font-poppins)", "sans-serif"],
         body: ["var(--font-pt-sans)", "sans-serif"],
+        'serif-display': ['var(--font-lora)', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
