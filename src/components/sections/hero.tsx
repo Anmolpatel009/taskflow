@@ -34,16 +34,18 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="relative w-full h-96 hidden md:flex items-center justify-center">
-              {/* Back circular image */}
-              <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
-                  <Image
-                      src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      data-ai-hint="glowing earth"
-                      alt="Rotating earth with glowing city lights"
-                      fill
-                      className="object-cover animate-spin-slow"
-                  />
+          <div className="relative w-full h-96 hidden md:flex items-center justify-center gap-8">
+              {/* Rotating Earth */}
+              <div className="relative h-80 w-80">
+                  <div className="absolute inset-0 rounded-full overflow-hidden shadow-lg">
+                      <Image
+                          src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                          data-ai-hint="glowing earth"
+                          alt="Rotating earth with glowing city lights"
+                          fill
+                          className="object-cover animate-spin-slow"
+                      />
+                  </div>
                   {/* Skill Nodes */}
                   <div className="absolute top-[20%] left-[50%] h-2 w-2 rounded-full bg-cyan-400 animate-ping-slow"></div>
                   <div className="absolute top-[50%] left-[20%] h-3 w-3 rounded-full bg-red-500 animate-ping-slow animation-delay-300"></div>
@@ -64,39 +66,28 @@ export default function Hero() {
                       </svg>
                     </div>
               </div>
-              {/* Front square image */}
-              <div className="relative top-0 left-10 h-64 w-64 rounded-lg overflow-hidden shadow-2xl z-20">
-                  <Image
-                      src="https://placehold.co/600x400.png"
-                      data-ai-hint="professional handshake"
-                      alt="A professional handshake sealing a deal in a modern office."
-                      fill
-                      className="object-cover"
-                  />
-              </div>
-              {/* New Hero Card */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
-                  <div className="hero-card animate-tilt-shaking">
-                      <div className="notification">
-                        <div className="notification-header">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="notification-logo text-blue-400">
-                              <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.071l9 9a.75.75 0 001.071-1.071l-9-9zM12 3a9 9 0 100 18 9 9 0 000-18zM3.75 12a8.25 8.25 0 1116.5 0 8.25 8.25 0 01-16.5 0z" clipRule="evenodd" />
-                          </svg>
-                          <span>TalentFlow • now</span>
-                        </div>
-                        <p className="notification-title">New Task Posted</p>
-                        <p className="notification-body">"I need a logo designed for my new coffee shop brand..."</p>
-                      </div>
-                      <div className="notification payment">
-                         <div className="notification-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="notification-logo text-green-400">
-                                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-                            </svg>
-                           <span>TalentFlow Payments • 1m ago</span>
-                        </div>
-                        <p className="notification-title">Payment Received</p>
-                        <p className="notification-body">+ ₹12,500.00</p>
-                      </div>
+              
+              {/* Shaking Notification Card */}
+              <div className="hero-card animate-tilt-shaking">
+                  <div className="notification">
+                    <div className="notification-header">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="notification-logo text-blue-400">
+                          <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.071l9 9a.75.75 0 001.071-1.071l-9-9zM12 3a9 9 0 100 18 9 9 0 000-18zM3.75 12a8.25 8.25 0 1116.5 0 8.25 8.25 0 01-16.5 0z" clipRule="evenodd" />
+                      </svg>
+                      <span>TalentFlow • now</span>
+                    </div>
+                    <p className="notification-title">New Task Posted</p>
+                    <p className="notification-body">"I need a logo designed for my new coffee shop brand..."</p>
+                  </div>
+                  <div className="notification payment">
+                      <div className="notification-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="notification-logo text-green-400">
+                            <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                        </svg>
+                       <span>TalentFlow Payments • 1m ago</span>
+                    </div>
+                    <p className="notification-title">Payment Received</p>
+                    <p className="notification-body">+ ₹12,500.00</p>
                   </div>
               </div>
           </div>
