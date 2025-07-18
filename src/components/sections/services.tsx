@@ -45,12 +45,14 @@ export default function Services() {
           {services.map((service) => (
             <Card key={service.title} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
               <div className="relative h-48 w-full">
+                  {/* TODO: Replace with a relevant image for this service that highlights the human element */}
                   <Image src={service.image} alt={service.title} layout="fill" objectFit="cover" data-ai-hint={service.dataAiHint} />
               </div>
               <CardHeader>
                 <CardTitle className="font-headline">{service.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow flex flex-col">
+                {/* TODO: Update the description to be more benefit-oriented and emphasize the human connection */}
                 <CardDescription className="flex-grow">{service.description}</CardDescription>
                 <div className="text-sm text-muted-foreground mt-4 flex items-center pt-4 border-t">
                   <Star className="w-4 h-4 mr-2 text-yellow-500" />

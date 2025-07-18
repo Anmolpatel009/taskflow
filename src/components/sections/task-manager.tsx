@@ -1,29 +1,33 @@
-'use client';
-
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import TaskSubmissionModal from '@/components/task-submission-modal';
-import TaskList from '@/components/task-list';
+import React from 'react';
 
 export default function TaskManager() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
-    <section id="tasks" className="py-16 lg:py-24">
-      <div className="container">
-        <div className="bg-card p-6 md:p-8 rounded-lg shadow-md border">
-          <h2 className="text-3xl md:text-4xl font-bold font-headline mb-6">Open Tasks</h2>
-          <div className="mb-6">
-            <Button size="lg" className="w-full md:w-auto" onClick={() => setIsModalOpen(true)}>
-              <Plus className="mr-2 h-5 w-5" />
-              Post a New Task
-            </Button>
+    <section className="bg-gray-100 dark:bg-gray-800 py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white text-center mb-8">
+          Manage Your Tasks Effortlessly
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            {/* Add comments here indicating where to emphasize benefits and human connection */}
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
+              Our intuitive task manager makes it easy to post tasks, track progress, and communicate with service providers.
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
+              For service providers, it's a simple way to find relevant tasks, manage their workload, and get paid efficiently.
+            </p>
           </div>
-          <TaskList />
+          <div className="relative">
+            {/* Add comments here indicating where to incorporate human-centric imagery */}
+            {/* Placeholder for an image showing the task management process */}
+            <img
+              src="https://via.placeholder.com/600x400"
+              alt="Task management interface"
+              className="rounded-lg shadow-lg"
+            />
+          </div>
         </div>
-        <TaskSubmissionModal isOpen={isModalOpen} onOpenChange={setIsModalOpen} />
       </div>
     </section>
   );
-}
+};
