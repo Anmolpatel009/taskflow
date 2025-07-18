@@ -57,7 +57,7 @@ export default function Hero() {
               </div>
               {/* New Hero Card */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
-                  <div className="hero-card">
+                  <div className="hero-card animate-tilt-shaking">
                       <div className="hero-card__date">
                           <span className="time">14:34</span>
                           <span className="date">Mon.,21 August</span>
