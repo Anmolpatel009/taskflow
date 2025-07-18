@@ -110,6 +110,10 @@ export default {
           '25%': { 'box-shadow': '0 0 0.5rem 0.1rem rgba(255, 0, 255, 0.5)' },
           '50%': { 'box-shadow': '0 0 0.5rem 0.1rem rgba(255, 255, 0, 0.5)' },
           '75%': { 'box-shadow': '0 0 0.5rem 0.1rem rgba(0, 255, 0, 0.5)' },
+        },
+        "card-rotation": {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         }
       },
       animation: {
@@ -120,6 +124,7 @@ export default {
         "float": "float 5s ease-in-out infinite",
         "ping-slow": 'ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite',
         "rgb-border": 'rgb-border 4s linear infinite',
+        "card-rotation": "card-rotation 8s infinite linear",
       },
     },
   },
