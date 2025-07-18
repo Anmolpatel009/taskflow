@@ -21,7 +21,7 @@ export default function Hero() {
                 <Link href="/showall">Show All Freelancers</Link>
               </Button>
               <Button asChild size="lg" variant="secondary">
-                <Link href="/nearby">Find Nearby</Link>
+                <Link href="/nearby">View All Tasks</Link>
               </Button>
             </div>
           </div>
