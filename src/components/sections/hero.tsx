@@ -38,11 +38,11 @@ export default function Hero() {
               {/* Back circular image */}
               <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
                   <Image
-                      src="https://images.pexels.com/photos/139387/pexels-photo-139387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      data-ai-hint="stylized map"
-                      alt="Stylized map of the world"
+                      src="https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                      data-ai-hint="rotating earth"
+                      alt="Rotating earth"
                       fill
-                      className="object-cover"
+                      className="object-cover animate-spin-slow"
                   />
               </div>
               {/* Front square image */}

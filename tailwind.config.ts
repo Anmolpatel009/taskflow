@@ -115,6 +115,10 @@ export default {
           '0%, 100%': { transform: 'rotate(0deg) rotate3d(5, 5, 10, -10deg)' },
           '50%': { transform: 'rotate(5deg) rotate3d(5, 5, 10, 10deg)' },
         },
+        "spin-slow": {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -125,6 +129,7 @@ export default {
         "ping-slow": 'ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite',
         "rgb-border": 'rgb-border 4s linear infinite',
         "tilt-shaking": 'tilt-shaking 4s infinite',
+        "spin-slow": 'spin-slow 25s linear infinite',
       },
     },
   },
