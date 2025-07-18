@@ -38,9 +38,9 @@ export default function Hero() {
               {/* Back circular image */}
               <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full overflow-hidden shadow-lg z-10">
                   <Image
-                      src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                      data-ai-hint="earth globe"
-                      alt="Image of the Earth"
+                      src="https://images.pexels.com/photos/139387/pexels-photo-139387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                      data-ai-hint="stylized map"
+                      alt="Stylized map of the world"
                       fill
                       className="object-cover"
                   />
