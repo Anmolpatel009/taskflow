@@ -13,10 +13,11 @@ const ALL_SKILLS = [
 
 // Function to generate a random position and animation style
 const generateSkillStyle = () => {
+  // Use a wider range (e.g., 0-90%) to fill the container more evenly
   const duration = Math.random() * 8 + 10; // Random duration between 10-18s
   const delay = Math.random() * 5; // Random delay up to 5s
-  const top = `${Math.random() * 80 + 10}%`; // Random top between 10-90%
-  const left = `${Math.random() * 80 + 10}%`; // Random left between 10-90%
+  const top = `${Math.random() * 85}%`; // Random top between 0-85% to avoid overflow
+  const left = `${Math.random() * 85}%`; // Random left between 0-85% to avoid overflow
   
   return {
     animation: `float ${duration}s ease-in-out ${delay}s infinite`,

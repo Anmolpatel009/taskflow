@@ -92,11 +92,12 @@ export default {
             }
         },
         "float": {
-          "0%": { transform: 'translate(0, 0)' },
-          "25%": { transform: 'translate(5px, 10px)' },
-          "50%": { transform: 'translate(-5px, -5px)' },
-          "75%": { transform: 'translate(10px, -10px)' },
-          "100%": { transform: 'translate(0, 0)' },
+          "0%": { transform: 'translate(0px, 0px)' },
+          "20%": { transform: 'translate(10px, -5px)' },
+          "40%": { transform: 'translate(-5px, 10px)' },
+          "60%": { transform: 'translate(5px, 5px)' },
+          "80%": { transform: 'translate(-10px, -10px)' },
+          "100%": { transform: 'translate(0px, 0px)' },
         },
         "ping-slow": {
           '75%, 100%': {
