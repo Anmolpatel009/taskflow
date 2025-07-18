@@ -4,49 +4,8 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-
-const ALL_SKILLS = [
-  'React', 'Node.js', 'UI/UX', 'Graphic Design', 'SEO', 'Copywriting', 'Python',
-  'Java', 'Go', 'Firebase', 'Next.js', 'Testing', 'AI/ML'
-];
-
-// Function to generate a random position and animation style
-const generateSkillStyle = () => {
-  // Use a wider range (e.g., 0-90%) to fill the container more evenly
-  const duration = Math.random() * 8 + 10; // Random duration between 10-18s
-  const delay = Math.random() * 5; // Random delay up to 5s
-  const top = `${Math.random() * 85}%`; // Random top between 0-85% to avoid overflow
-  const left = `${Math.random() * 85}%`; // Random left between 0-85% to avoid overflow
-  
-  return {
-    animation: `float ${duration}s ease-in-out ${delay}s infinite`,
-    top,
-    left,
-  };
-};
 
 export default function Hero() {
-  const [visibleSkills, setVisibleSkills] = useState<{ skill: string; style: React.CSSProperties; }[]>([]);
-
-  useEffect(() => {
-    // Start with the first skill
-    setVisibleSkills([{ skill: ALL_SKILLS[0], style: generateSkillStyle() }]);
-
-    const interval = setInterval(() => {
-      setVisibleSkills(currentSkills => {
-        if (currentSkills.length < ALL_SKILLS.length) {
-          const newSkill = ALL_SKILLS[currentSkills.length];
-          return [...currentSkills, { skill: newSkill, style: generateSkillStyle() }];
-        }
-        clearInterval(interval);
-        return currentSkills;
-      });
-    }, 2500); // Add a new skill every 2.5 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section className="bg-background text-foreground py-20 md:py-28">
       <div className="container mx-auto px-4">
@@ -96,26 +55,18 @@ export default function Hero() {
                       className="object-cover"
                   />
               </div>
-              {/* Skill cloud square */}
-              <div className="absolute top-1/2 left-1/2 h-40 w-40 bg-background/80 backdrop-blur-sm transform -translate-x-1/2 -translate-y-1/2 z-30 shadow-2xl rounded-lg overflow-hidden">
-                <div className="relative w-full h-full">
-                  {visibleSkills.map(({ skill, style }) => (
-                    <div
-                      key={skill}
-                      className="absolute"
-                      style={style}
-                    >
-                       <div className="relative flex items-center justify-center h-16 w-16">
-                         <div className="absolute h-full w-full rounded-full animate-rgb-border"></div>
-                         <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-background/90 shadow-md">
-                            <span className="text-xs font-semibold text-foreground opacity-100">
-                              {skill}
-                            </span>
-                         </div>
+              {/* New Hero Card */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
+                  <div className="hero-card">
+                      <div className="hero-card__date">
+                          <span className="time">14:34</span>
+                          <span className="date">Mon.,21 August</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                      <div className="popup">
+                          <p className="title">Software update</p>
+                          <p>Postponed update</p>
+                      </div>
+                  </div>
               </div>
           </div>
         </div>
