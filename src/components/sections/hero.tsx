@@ -23,6 +23,9 @@ export default function Hero() {
               <Button asChild size="lg" variant="secondary">
                 <Link href="/nearby">View All Tasks</Link>
               </Button>
+              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/20">
+                <Link href="#">Find Nearby Freelancers</Link>
+              </Button>
             </div>
           </div>
 
