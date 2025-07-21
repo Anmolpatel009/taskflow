@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -59,18 +60,32 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange }: TaskSubmis
   const handleDetectLocation = () => {
     if (navigator.geolocation) {
       setIsDetectingLocation(true);
+      toast({ title: "Detecting Address...", description: "Please wait while we fetch your address." });
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          form.setValue('taskLocation', `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-          toast({ title: "Success", description: "Location detected!" });
-          setIsDetectingLocation(false);
+          
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+            const data = await response.json();
+            if (data && data.display_name) {
+              form.setValue('taskLocation', data.display_name);
+              toast({ title: "Success", description: "Address automatically filled!" });
+            } else {
+               toast({ variant: 'destructive', title: "Error", description: "Could not fetch address details. Please enter manually." });
+            }
+          } catch (error) {
+             toast({ variant: 'destructive', title: "Error", description: "Failed to fetch address. Please enter manually." });
+          } finally {
+            setIsDetectingLocation(false);
+          }
         },
         () => {
-          toast({ variant: 'destructive', title: "Error", description: "Could not detect location. Please enter manually." });
+          toast({ variant: 'destructive', title: "Error", description: "Could not detect location. Please grant permission or enter manually." });
           setIsDetectingLocation(false);
-        }
+        },
+        { enableHighAccuracy: true }
       );
     } else {
       toast({ variant: 'destructive', title: "Error", description: "Geolocation is not supported by your browser." });
@@ -119,13 +134,16 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange }: TaskSubmis
               <FormItem><FormLabel>Task Description *</FormLabel><FormControl><Textarea placeholder="Provide details about the task..." rows={4} {...field} /></FormControl><FormMessage /></FormItem>
             )} />
             <FormField control={form.control} name="taskLocation" render={({ field }) => (
-              <FormItem><FormLabel>Task Location *</FormLabel>
-                <div className="flex gap-2">
-                  <FormControl><Input placeholder="Enter your city or address" {...field} /></FormControl>
-                  <Button type="button" variant="outline" onClick={handleDetectLocation} disabled={isDetectingLocation}>
-                    {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4" />}
-                  </Button>
-                </div><FormMessage />
+              <FormItem>
+                <div className="flex justify-between items-center">
+                    <FormLabel>Task Location *</FormLabel>
+                    <Button type="button" variant="link" size="sm" className="h-auto p-0" onClick={handleDetectLocation} disabled={isDetectingLocation}>
+                        {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <LocateFixed className="h-4 w-4 mr-1" />}
+                        Detect Address
+                    </Button>
+                </div>
+                <FormControl><Input placeholder="Enter your city or address" {...field} /></FormControl>
+                <FormMessage />
               </FormItem>
             )} />
             <div className="grid md:grid-cols-2 gap-4">
