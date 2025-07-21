@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { ThemeToggle } from '../theme-toggle';
 import {
   DropdownMenu,
@@ -95,6 +95,7 @@ export default function Header() {
                 </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-full max-w-sm">
+                 <SheetTitle className="sr-only">Menu</SheetTitle>
                 <div className="flex flex-col h-full">
                     <div className="border-b pb-4">
                         <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
