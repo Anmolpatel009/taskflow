@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, LocateFixed } from 'lucide-react';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { getFirestore, doc, setDoc, GeoPoint, serverTimestamp } from 'firebase/firestore';
 import { app } from '@/lib/firebase';
@@ -43,6 +43,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -56,6 +57,29 @@ export default function SignupPage() {
   });
   
   const userRole = form.watch('role');
+
+  const handleDetectLocation = () => {
+    if (navigator.geolocation) {
+      setIsDetectingLocation(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          form.setValue('location', `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+          toast({ title: "Success", description: "Location detected!" });
+          setIsDetectingLocation(false);
+        },
+        () => {
+          toast({ variant: 'destructive', title: "Error", description: "Could not detect location. Please enter manually." });
+          setIsDetectingLocation(false);
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      toast({ variant: 'destructive', title: "Error", description: "Geolocation is not supported by your browser." });
+    }
+  };
+
 
   const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
@@ -164,7 +188,16 @@ export default function SignupPage() {
                         <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
                       )} />
                       <FormField control={form.control} name="location" render={({ field }) => (
-                        <FormItem><FormLabel>Location (Latitude, Longitude)</FormLabel><FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem>
+                          <FormLabel>Location (Latitude, Longitude)</FormLabel>
+                          <div className="flex gap-2">
+                             <FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl>
+                             <Button type="button" variant="outline" onClick={handleDetectLocation} disabled={isDetectingLocation}>
+                                {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4" />}
+                              </Button>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
                       )} />
                       <FormField control={form.control} name="skills" render={({ field }) => (
                         <FormItem><FormLabel>Skills</FormLabel><FormControl><Input placeholder="e.g., Web Development, Graphic Design" {...field} /></FormControl><FormMessage /></FormItem>
