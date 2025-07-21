@@ -16,7 +16,7 @@ import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { getFirestore, doc, setDoc, GeoPoint, serverTimestamp } from 'firebase/firestore';
 import { app } from '@/lib/firebase';
 import Link from 'next/link';
@@ -66,6 +66,8 @@ export default function SignupPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
       
+      await sendEmailVerification(user);
+
       const [lat, lng] = values.location ? values.location.split(',').map(coord => parseFloat(coord.trim())) : [0,0];
 
       const userData: any = {
@@ -101,7 +103,11 @@ export default function SignupPage() {
       
       await setDoc(doc(db, 'users', user.uid), userData);
 
-      toast({ title: 'Success!', description: 'Your account has been created.' });
+      toast({ 
+        title: 'Success!', 
+        description: 'Your account has been created. Please check your email for a verification link.',
+        duration: 5000,
+       });
       router.push('/login');
 
     } catch (error: any) {
