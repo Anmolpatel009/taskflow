@@ -61,16 +61,30 @@ export default function SignupPage() {
   const handleDetectLocation = () => {
     if (navigator.geolocation) {
       setIsDetectingLocation(true);
+      toast({ title: "Detecting Location...", description: "Please wait while we fetch your address." });
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           form.setValue('location', `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-          toast({ title: "Success", description: "Location detected!" });
-          setIsDetectingLocation(false);
+
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+            const data = await response.json();
+            if (data && data.display_name) {
+              form.setValue('address', data.display_name);
+              toast({ title: "Success", description: "Address automatically filled!" });
+            } else {
+               toast({ variant: 'destructive', title: "Error", description: "Could not fetch address details. Please enter manually." });
+            }
+          } catch (error) {
+             toast({ variant: 'destructive', title: "Error", description: "Failed to fetch address. Please enter manually." });
+          } finally {
+            setIsDetectingLocation(false);
+          }
         },
         () => {
-          toast({ variant: 'destructive', title: "Error", description: "Could not detect location. Please enter manually." });
+          toast({ variant: 'destructive', title: "Error", description: "Could not detect location. Please grant permission or enter manually." });
           setIsDetectingLocation(false);
         },
         { enableHighAccuracy: true }
@@ -185,17 +199,22 @@ export default function SignupPage() {
                         <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
                       )} />
                       <FormField control={form.control} name="address" render={({ field }) => (
-                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem>
+                            <div className="flex justify-between items-center">
+                                <FormLabel>Address</FormLabel>
+                                <Button type="button" variant="link" size="sm" className="h-auto p-0" onClick={handleDetectLocation} disabled={isDetectingLocation}>
+                                     {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <LocateFixed className="h-4 w-4 mr-1" />}
+                                     Detect Address
+                                </Button>
+                            </div>
+                            <FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
                       )} />
                       <FormField control={form.control} name="location" render={({ field }) => (
                         <FormItem>
                           <FormLabel>Location (Latitude, Longitude)</FormLabel>
-                          <div className="flex gap-2">
-                             <FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl>
-                             <Button type="button" variant="outline" onClick={handleDetectLocation} disabled={isDetectingLocation}>
-                                {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4" />}
-                              </Button>
-                          </div>
+                          <FormControl><Input placeholder="e.g., 40.7128, -74.0060" {...field} /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -256,3 +275,5 @@ export default function SignupPage() {
     </div>
   );
 }
+
+    
