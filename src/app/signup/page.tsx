@@ -234,8 +234,8 @@ export default function SignupPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-2">Join Our Freelancer Community</h3>
-                        <Button asChild variant="outline">
-                           <Link href="https://chat.whatsapp.com/KKNWoExT1E18vsHh4Hu6OT?mode=ac_c" target="_blank">
+                        <Button asChild variant="outline" className="h-auto">
+                           <Link href="https://chat.whatsapp.com/KKNWoExT1E18vsHh4Hu6OT" target="_blank">
                               Join Workflow Freelancers on WhatsApp
                            </Link>
                         </Button>
@@ -275,5 +275,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
-    
