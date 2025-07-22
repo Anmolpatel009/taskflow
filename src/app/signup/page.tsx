@@ -192,7 +192,7 @@ export default function SignupPage() {
                     <FormLabel>You want to join as *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                       <FormControl><SelectTrigger><SelectValue placeholder="Select Role" /></SelectTrigger></FormControl>
-                      <SelectContent>
+                      <SelectContent position="item-aligned">
                         <SelectItem value="freelancer">Freelancer (Offer Services)</SelectItem>
                         <SelectItem value="client">Client (Post Tasks)</SelectItem>
                       </SelectContent>
@@ -279,7 +279,7 @@ export default function SignupPage() {
                         <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
                       )} />
                       <FormField control={form.control} name="address" render={({ field }) => (
-                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" /></FormControl><FormMessage /></FormItem>
                       )} />
                   </div>
                 )}
