@@ -95,16 +95,30 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
                     )}
                 </div>
 
-                <div className="mt-2 flex flex-wrap gap-2 items-center">
-                    <Button size="sm" variant="outline" className="cursor-default">
-                        <Users className="mr-2 h-4 w-4" /> {interestedCount}
-                    </Button>
-                    {interestedCount > 0 && (
-                      <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
-                        <Eye className="mr-2 h-4 w-4" /> View
-                      </Button>
-                    )}
-                </div>
+                {viewContext === 'public' && task.taskType === 'discuss' && (
+                    <div className="mt-2 flex flex-wrap gap-2 items-center">
+                        <Button size="sm" variant="outline" className="cursor-default">
+                            <Users className="mr-2 h-4 w-4" /> {interestedCount}
+                        </Button>
+                        {interestedCount > 0 && (
+                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
+                            <Eye className="mr-2 h-4 w-4" /> View
+                        </Button>
+                        )}
+                    </div>
+                )}
+                 {viewContext === 'client' && (
+                    <div className="mt-2 flex flex-wrap gap-2 items-center">
+                        <Button size="sm" variant="outline" className="cursor-default">
+                            <Users className="mr-2 h-4 w-4" /> {interestedCount} Interested
+                        </Button>
+                        {interestedCount > 0 && (
+                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
+                            <Eye className="mr-2 h-4 w-4" /> View
+                        </Button>
+                        )}
+                    </div>
+                )}
 
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
