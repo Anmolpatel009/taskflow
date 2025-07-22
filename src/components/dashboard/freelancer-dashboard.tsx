@@ -20,7 +20,7 @@ export default function FreelancerDashboard({ user }: FreelancerDashboardProps) 
         <Button asChild size="lg">
             <Link href="/find-work">
                 <Search className="mr-2" />
-                Find New Work
+                Browse Tasks and Projects
             </Link>
         </Button>
       </div>
