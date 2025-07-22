@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -55,6 +56,15 @@ export default function SignupPage() {
       password: '',
       name: '',
       role: undefined,
+      phone: '',
+      address: '',
+      location: '',
+      skills: '',
+      services: '',
+      experience: 0,
+      hourlyRate: 0,
+      companyName: '',
+      industry: '',
     },
   });
 
