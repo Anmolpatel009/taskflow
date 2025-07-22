@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -19,10 +19,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LocateFixed } from 'lucide-react';
+import type { User } from '@/types';
 
 interface TaskSubmissionModalProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  user?: User | null;
 }
 
 const formSchema = z.object({
@@ -38,7 +40,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function TaskSubmissionModal({ isOpen, onOpenChange }: TaskSubmissionModalProps) {
+export default function TaskSubmissionModal({ isOpen, onOpenChange, user }: TaskSubmissionModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const { toast } = useToast();
@@ -56,6 +58,15 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange }: TaskSubmis
       timeframe: '',
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      form.setValue('posterName', user.name || '');
+      form.setValue('posterEmail', user.email || '');
+      form.setValue('posterPhone', user.phone || '');
+    }
+  }, [user, form]);
+
 
   const handleDetectLocation = () => {
     if (navigator.geolocation) {
@@ -106,6 +117,8 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange }: TaskSubmis
         timeframe: values.timeframe,
         createdAt: serverTimestamp(),
         status: 'open',
+        clientId: user?.id || null, // Add clientId
+        interestedCount: 0,
       });
       toast({ title: 'Success!', description: 'Your task has been posted.' });
       form.reset();

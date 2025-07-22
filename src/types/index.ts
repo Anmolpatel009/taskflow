@@ -14,6 +14,7 @@ export interface Task {
   status: 'open' | 'closed';
   createdAt: Timestamp;
   interestedCount?: number;
+  clientId?: string;
 }
 
 export interface User {
