@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { ThemeToggle } from '../theme-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,7 +75,6 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center space-x-2">
-           <ThemeToggle />
             <Button variant="outline" asChild>
               <Link href="/login">Log In</Link>
             </Button>
@@ -86,7 +84,6 @@ export default function Header() {
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle />
              <Button variant="outline" size="sm" asChild>
               <Link href="/login">Log In</Link>
             </Button>
