@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -13,14 +13,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LocateFixed } from 'lucide-react';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { getFirestore, doc, setDoc, GeoPoint, serverTimestamp } from 'firebase/firestore';
 import { app } from '@/lib/firebase';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 const formSchema = z.object({
@@ -46,6 +46,7 @@ export default function SignupPage() {
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -53,8 +54,16 @@ export default function SignupPage() {
       email: '',
       password: '',
       name: '',
+      role: undefined,
     },
   });
+
+  useEffect(() => {
+    const roleParam = searchParams.get('role');
+    if (roleParam === 'client' || roleParam === 'freelancer') {
+      form.setValue('role', roleParam);
+    }
+  }, [searchParams, form]);
   
   const userRole = form.watch('role');
 
@@ -171,13 +180,16 @@ export default function SignupPage() {
                 <FormField control={form.control} name="role" render={({ field }) => (
                   <FormItem>
                     <FormLabel>You want to join as *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                       <FormControl><SelectTrigger><SelectValue placeholder="Select Role" /></SelectTrigger></FormControl>
                       <SelectContent>
                         <SelectItem value="freelancer">Freelancer (Offer Services)</SelectItem>
                         <SelectItem value="client">Client (Post Tasks)</SelectItem>
                       </SelectContent>
                     </Select>
+                    <FormDescription>
+                      Choose **Client** to post tasks and hire. Choose **Freelancer** to offer services and find work.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -234,7 +246,7 @@ export default function SignupPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-2">Join Our Freelancer Community</h3>
-                        <Button asChild variant="outline" className="h-auto">
+                        <Button asChild variant="outline" className="h-auto whitespace-normal">
                            <Link href="https://chat.whatsapp.com/KKNWoExT1E18vsHh4Hu6OT" target="_blank">
                               Join Workflow Freelancers on WhatsApp
                            </Link>
