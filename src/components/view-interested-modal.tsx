@@ -62,7 +62,7 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
       <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-headline text-2xl">Interested Freelancers</DialogTitle>
-          <DialogDescription>These freelancers have shown interest in this task.</DialogDescription>
+          <DialogDescription>These freelancers have shown interest in this task. Start a chat to discuss details.</DialogDescription>
         </DialogHeader>
         <div className="mt-4">
           {loading ? (
@@ -84,7 +84,7 @@ export default function ViewInterestedModal({ isOpen, onOpenChange, taskId }: Vi
           ) : interestedFreelancers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {interestedFreelancers.map(freelancer => (
-                <FreelancerCard key={freelancer.id} freelancer={freelancer} />
+                <FreelancerCard key={freelancer.id} freelancer={freelancer} context="task-interest" />
               ))}
             </div>
           ) : (

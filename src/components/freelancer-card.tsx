@@ -6,10 +6,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Mail, Phone, Briefcase, MapPin, Star } from 'lucide-react';
+import { Mail, Phone, Briefcase, MapPin, Star, MessageSquare } from 'lucide-react';
 
 interface FreelancerCardProps {
   freelancer: User;
+  context?: 'directory' | 'task-interest';
 }
 
 function getInitials(name?: string) {
@@ -22,7 +23,7 @@ function getInitials(name?: string) {
 }
 
 
-export default function FreelancerCard({ freelancer }: FreelancerCardProps) {
+export default function FreelancerCard({ freelancer, context = 'directory' }: FreelancerCardProps) {
     // The profile data might be nested under `freelancerProfile` or be at the top level.
     const profile = freelancer.freelancerProfile || freelancer;
 
@@ -78,16 +79,25 @@ export default function FreelancerCard({ freelancer }: FreelancerCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-end gap-2 bg-muted/50 py-3 px-4">
-        <Button variant="outline" size="sm" asChild>
-            <a href={`mailto:${freelancer.email}`}>
-                <Mail className="mr-2 h-4 w-4" /> Message
-            </a>
-        </Button>
-         <Button size="sm" asChild>
-             <a href={`https://wa.me/${freelancer.phone}`}>
-                <Phone className="mr-2 h-4 w-4" /> Hire Now
-            </a>
-        </Button>
+        {context === 'directory' && (
+            <>
+                <Button variant="outline" size="sm" asChild>
+                    <a href={`mailto:${freelancer.email}`}>
+                        <Mail className="mr-2 h-4 w-4" /> Message
+                    </a>
+                </Button>
+                 <Button size="sm" asChild>
+                     <a href={`https://wa.me/${freelancer.phone}`}>
+                        <Phone className="mr-2 h-4 w-4" /> Hire Now
+                    </a>
+                </Button>
+            </>
+        )}
+        {context === 'task-interest' && (
+            <Button size="sm">
+                <MessageSquare className="mr-2 h-4 w-4" /> Chat to Discuss
+            </Button>
+        )}
       </CardFooter>
     </Card>
   );
