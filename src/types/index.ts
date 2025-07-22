@@ -18,6 +18,7 @@ export interface Task {
 
 export interface User {
   id: string;
+  uid: string;
   name: string;
   email: string;
   phone: string;
