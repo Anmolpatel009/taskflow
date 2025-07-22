@@ -63,7 +63,7 @@ export default function ClientTaskList({ clientId }: ClientTaskListProps) {
   return (
     <div className="flex flex-col gap-6">
       {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
+        <TaskCard key={task.id} task={task} viewContext="client" />
       ))}
     </div>
   );

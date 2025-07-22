@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { Task } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Eye, Zap } from 'lucide-react';
+import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Eye, Zap, Trash2 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import InterestModal from '@/components/interest-modal';
 import ViewInterestedModal from './view-interested-modal';
@@ -14,9 +14,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 interface TaskCardProps {
   task: Task;
+  viewContext?: 'public' | 'client';
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps) {
   const [interestedCount, setInterestedCount] = useState(task.interestedCount || 0);
   const [feedback, setFeedback] = useState<'interested' | 'not-interested' | null>(null);
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
@@ -45,6 +46,12 @@ export default function TaskCard({ task }: TaskCardProps) {
     // 4. Potentially creating a notification for the client.
     alert("Accept Task functionality to be implemented.");
   }
+  
+  const handleDeleteTask = () => {
+      // TODO: Implement logic to delete the task from firestore
+      // This will involve adding a confirmation dialog before deleting.
+      alert("Delete Task functionality to be implemented.");
+  }
 
   return (
     <>
@@ -66,11 +73,12 @@ export default function TaskCard({ task }: TaskCardProps) {
                 <p className="text-sm text-foreground/80 line-clamp-3 mb-4">{task.description}</p>
                 
                  <div className="flex flex-wrap items-center gap-2">
-                    {task.taskType === 'instant' ? (
+                    {viewContext === 'public' && task.taskType === 'instant' && (
                        <Button size="sm" onClick={handleAcceptTask}>
                             <Zap className="mr-2 h-4 w-4" /> Accept Task
                         </Button>
-                    ) : (
+                    )}
+                     {viewContext === 'public' && task.taskType === 'discuss' && (
                         <>
                             <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick}>
                                 <ThumbsUp className="mr-2 h-4 w-4" /> Interested
@@ -80,20 +88,23 @@ export default function TaskCard({ task }: TaskCardProps) {
                             </Button>
                         </>
                     )}
+                     {viewContext === 'client' && (
+                        <Button size="sm" variant="destructive" onClick={handleDeleteTask}>
+                           <Trash2 className="mr-2 h-4 w-4" /> Delete Task
+                        </Button>
+                    )}
                 </div>
 
-                {task.taskType === 'discuss' && (
-                  <div className="mt-2 flex flex-wrap gap-2 items-center">
-                      <Button size="sm" variant="outline" className="cursor-default">
-                          <Users className="mr-2 h-4 w-4" /> {interestedCount}
+                <div className="mt-2 flex flex-wrap gap-2 items-center">
+                    <Button size="sm" variant="outline" className="cursor-default">
+                        <Users className="mr-2 h-4 w-4" /> {interestedCount}
+                    </Button>
+                    {interestedCount > 0 && (
+                      <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
+                        <Eye className="mr-2 h-4 w-4" /> View
                       </Button>
-                      {interestedCount > 0 && (
-                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
-                          <Eye className="mr-2 h-4 w-4" /> View
-                        </Button>
-                      )}
-                  </div>
-                )}
+                    )}
+                </div>
 
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
