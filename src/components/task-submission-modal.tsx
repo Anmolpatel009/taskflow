@@ -11,7 +11,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter
 } from '@/components/ui/dialog';
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
+  Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LocateFixed } from 'lucide-react';
 import type { User } from '@/types';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 interface TaskSubmissionModalProps {
   isOpen: boolean;
@@ -36,6 +37,7 @@ const formSchema = z.object({
   posterPhone: z.string().regex(/^[0-9]{10,15}$/, 'Invalid phone number.'),
   posterWillPay: z.string().min(1, 'Payment amount is required.'),
   timeframe: z.string().nonempty('Please select a timeframe.'),
+  taskType: z.enum(['instant', 'discuss'], { required_error: 'Please select a hiring model.' }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -56,6 +58,7 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange, user }: Task
       posterPhone: '',
       posterWillPay: '',
       timeframe: '',
+      taskType: 'discuss',
     },
   });
 
@@ -64,6 +67,7 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange, user }: Task
       form.setValue('posterName', user.name || '');
       form.setValue('posterEmail', user.email || '');
       form.setValue('posterPhone', user.phone || '');
+      form.setValue('taskLocation', user.address || '');
     }
   }, [user, form]);
 
@@ -115,6 +119,7 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange, user }: Task
         posterPhone: values.posterPhone,
         posterWillPay: values.posterWillPay,
         timeframe: values.timeframe,
+        taskType: values.taskType,
         createdAt: serverTimestamp(),
         status: 'open',
         clientId: user?.id || null, // Add clientId
@@ -140,6 +145,31 @@ export default function TaskSubmissionModal({ isOpen, onOpenChange, user }: Task
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pr-2">
+            <FormField control={form.control} name="taskType" render={({ field }) => (
+                <FormItem className="space-y-3 rounded-lg border p-4">
+                    <FormLabel className="font-semibold">Choose Your Hiring Model *</FormLabel>
+                    <FormControl>
+                        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl><RadioGroupItem value="discuss" /></FormControl>
+                            <div>
+                                <FormLabel className="font-normal">Discuss First</FormLabel>
+                                <FormDescription>Receive interest, chat with freelancers, and then hire the best fit. Good for projects with flexible scope.</FormDescription>
+                            </div>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl><RadioGroupItem value="instant" /></FormControl>
+                            <div>
+                               <FormLabel className="font-normal">Instant Hire</FormLabel>
+                               <FormDescription>The first freelancer to accept your fixed-price task gets the job. Best for urgent, clearly defined tasks.</FormDescription>
+                            </div>
+                        </FormItem>
+                        </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )} />
+
             <FormField control={form.control} name="taskTitle" render={({ field }) => (
               <FormItem><FormLabel>Task Title *</FormLabel><FormControl><Input placeholder="e.g., I need a new website design" {...field} /></FormControl><FormMessage /></FormItem>
             )} />

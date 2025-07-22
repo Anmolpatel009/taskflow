@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { Task } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Eye } from 'lucide-react';
+import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Eye, Zap } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import InterestModal from '@/components/interest-modal';
 import ViewInterestedModal from './view-interested-modal';
@@ -36,6 +36,16 @@ export default function TaskCard({ task }: TaskCardProps) {
       setFeedback('not-interested');
   };
 
+  const handleAcceptTask = () => {
+    // TODO: Implement logic to accept the task.
+    // This will involve:
+    // 1. Checking if a user is logged in and is a freelancer.
+    // 2. Updating the task status to 'assigned' in Firestore.
+    // 3. Assigning the task to the current freelancer (task.assignedTo = userId).
+    // 4. Potentially creating a notification for the client.
+    alert("Accept Task functionality to be implemented.");
+  }
+
   return (
     <>
         <Card className="flex flex-col h-full bg-card hover:shadow-xl transition-shadow duration-300 w-full">
@@ -56,24 +66,34 @@ export default function TaskCard({ task }: TaskCardProps) {
                 <p className="text-sm text-foreground/80 line-clamp-3 mb-4">{task.description}</p>
                 
                  <div className="flex flex-wrap items-center gap-2">
-                    <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick}>
-                        <ThumbsUp className="mr-2 h-4 w-4" /> Interested
-                    </Button>
-                    <Button size="sm" variant={feedback === 'not-interested' ? 'destructive' : 'outline'} onClick={handleNotInterested}>
-                        <ThumbsDown className="mr-2 h-4 w-4" /> Not Interested
-                    </Button>
-                </div>
-
-                <div className="mt-2 flex flex-wrap gap-2 items-center">
-                    <Button size="sm" variant="outline" className="cursor-default">
-                        <Users className="mr-2 h-4 w-4" /> {interestedCount}
-                    </Button>
-                    {interestedCount > 0 && (
-                      <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
-                        <Eye className="mr-2 h-4 w-4" /> View
-                      </Button>
+                    {task.taskType === 'instant' ? (
+                       <Button size="sm" onClick={handleAcceptTask}>
+                            <Zap className="mr-2 h-4 w-4" /> Accept Task
+                        </Button>
+                    ) : (
+                        <>
+                            <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick}>
+                                <ThumbsUp className="mr-2 h-4 w-4" /> Interested
+                            </Button>
+                            <Button size="sm" variant={feedback === 'not-interested' ? 'destructive' : 'outline'} onClick={handleNotInterested}>
+                                <ThumbsDown className="mr-2 h-4 w-4" /> Not Interested
+                            </Button>
+                        </>
                     )}
                 </div>
+
+                {task.taskType === 'discuss' && (
+                  <div className="mt-2 flex flex-wrap gap-2 items-center">
+                      <Button size="sm" variant="outline" className="cursor-default">
+                          <Users className="mr-2 h-4 w-4" /> {interestedCount}
+                      </Button>
+                      {interestedCount > 0 && (
+                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
+                          <Eye className="mr-2 h-4 w-4" /> View
+                        </Button>
+                      )}
+                  </div>
+                )}
 
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">

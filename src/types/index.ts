@@ -11,10 +11,12 @@ export interface Task {
   posterPhone: string;
   posterWillPay: string;
   timeframe: string;
-  status: 'open' | 'closed';
+  status: 'open' | 'closed' | 'assigned';
+  taskType: 'instant' | 'discuss';
   createdAt: Timestamp;
   interestedCount?: number;
   clientId?: string;
+  assignedTo?: string; // freelancer's user ID
 }
 
 export interface User {
