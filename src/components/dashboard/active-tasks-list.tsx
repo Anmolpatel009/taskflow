@@ -17,7 +17,10 @@ export default function ActiveTasksList({ freelancerId }: ActiveTasksListProps) 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!freelancerId) return;
+    if (!freelancerId) {
+        setLoading(false);
+        return;
+    };
     
     // This query requires a composite index.
     const q = query(
@@ -70,4 +73,3 @@ export default function ActiveTasksList({ freelancerId }: ActiveTasksListProps) 
     </div>
   );
 }
-

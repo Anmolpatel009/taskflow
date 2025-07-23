@@ -17,7 +17,10 @@ export default function ClientTaskList({ clientId }: ClientTaskListProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!clientId) return;
+    if (!clientId) {
+      setLoading(false);
+      return;
+    }
     
     const q = query(
         collection(db, 'tasks'), 

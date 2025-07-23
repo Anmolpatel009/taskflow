@@ -17,15 +17,14 @@ function getInitials(name?: string) {
     if (!name) return 'A';
     const parts = name.split(' ');
     if (parts.length > 1) {
-        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        return (parts[0][0] + (parts[parts.length - 1][0] || '')).toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
 }
 
 
 export default function FreelancerCard({ freelancer, context = 'directory' }: FreelancerCardProps) {
-    // The profile data might be nested under `freelancerProfile` or be at the top level.
-    const profile = freelancer.freelancerProfile || freelancer;
+    const profile = freelancer.freelancerProfile || {};
 
     const skillsArray = Array.isArray(profile.skills) 
       ? profile.skills 
