@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import type { Task, User } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Zap, Trash2, UserCheck } from 'lucide-react';
+import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Zap, Trash2, UserCheck, Milestone } from 'lucide-react';
 import InterestModal from '@/components/interest-modal';
 import ViewInterestedModal from './view-interested-modal';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, runTransaction, DocumentReference } from 'firebase/firestore';
+import { doc, getDoc, runTransaction, DocumentReference, GeoPoint } from 'firebase/firestore';
 import { app, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +22,23 @@ interface TaskCardProps {
   viewContext?: 'public' | 'client';
 }
 
+// Haversine formula to calculate distance between two lat/lng points
+function getDistanceInKm(point1: GeoPoint, point2: GeoPoint) {
+    if (!point1 || !point2) return null;
+
+    const R = 6371; // Radius of the earth in km
+    const dLat = (point2.latitude - point1.latitude) * (Math.PI / 180);
+    const dLon = (point2.longitude - point1.longitude) * (Math.PI / 180);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(point1.latitude * (Math.PI / 180)) * Math.cos(point2.latitude * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance;
+}
+
+
 export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps) {
   const [taskState, setTaskState] = useState(task);
   const [interestedCount, setInterestedCount] = useState(taskState.interestedCount || 0);
@@ -31,6 +48,8 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [isAccepting, setIsAccepting] = useState(false);
+  const [distance, setDistance] = useState<number | null>(null);
+
   const router = useRouter();
   const { toast } = useToast();
   const auth = getAuth(app);
@@ -52,6 +71,33 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
     });
     return () => unsubscribe();
   }, [auth]);
+
+  useEffect(() => {
+    const calculateDistance = async () => {
+        // Only calculate if a freelancer is logged in and we have the necessary IDs
+        if (currentUser?.role === 'freelancer' && taskState.clientId) {
+            try {
+                const posterDocRef = doc(db, 'users', taskState.clientId);
+                const posterDoc = await getDoc(posterDocRef);
+                if (posterDoc.exists()) {
+                    const posterData = posterDoc.data() as User;
+                    if (posterData.location && currentUser.location) {
+                        const dist = getDistanceInKm(currentUser.location, posterData.location);
+                        if (dist !== null) {
+                            setDistance(dist);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error calculating distance:", error);
+            }
+        }
+    };
+    if (!authLoading && currentUser) {
+        calculateDistance();
+    }
+  }, [currentUser, taskState.clientId, authLoading]);
+
 
   const handleViewInterestedClick = () => {
     if (authLoading) return;
@@ -128,7 +174,7 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
         // --- All READ operations must come first ---
         const taskDoc = await transaction.get(taskRef);
         const freelancerDoc = await transaction.get(freelancerRef);
-        
+
         if (!taskDoc.exists() || taskDoc.data().status !== 'open') {
           throw new Error("This task is no longer available.");
         }
@@ -136,27 +182,26 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
           throw new Error("Freelancer user not found.");
         }
         
-        // Read client doc if clientId exists
         const clientId = taskDoc.data().clientId;
-        let clientDoc = null;
-        let clientRef = null;
+        let clientRef: DocumentReference | null = null;
+        let clientDoc: any = null;
         if (clientId) {
             clientRef = doc(db, 'users', clientId);
             clientDoc = await transaction.get(clientRef);
         }
 
         // --- All WRITE operations must come after reads ---
-
-        // 1. Update freelancer's project count
-        const newFreelancerActiveProjects = (freelancerDoc.data().activeProjects || 0) + 1;
-        transaction.update(freelancerRef, { activeProjects: newFreelancerActiveProjects });
         
-        // 2. Update task status
+        // 1. Update task status
         transaction.update(taskRef, { 
           status: 'assigned',
           assignedTo: currentUser.id,
           assignedToName: currentUser.name || 'Anonymous',
         });
+
+        // 2. Update freelancer's project count
+        const newFreelancerActiveProjects = (freelancerDoc.data().activeProjects || 0) + 1;
+        transaction.update(freelancerRef, { activeProjects: newFreelancerActiveProjects });
         
         // 3. Update client's project count
         if (clientDoc && clientRef && clientDoc.exists()) {
@@ -248,6 +293,11 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
             <CardContent className="flex-grow">
                 <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-4">
                     <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {taskState.location}</span>
+                    {distance !== null && currentUser?.role === 'freelancer' && (
+                         <span className="flex items-center gap-1.5 text-primary font-medium">
+                            <Milestone className="w-4 h-4" /> Approx. {distance.toFixed(1)} km away
+                         </span>
+                    )}
                     <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {taskState.timeframe}</span>
                      {taskState.status === 'assigned' && taskState.assignedToName && (
                         <span className="flex items-center gap-1.5 text-green-500 font-medium"><UserCheck className="w-4 h-4" /> Assigned to {taskState.assignedToName.split(' ')[0]}</span>
@@ -297,3 +347,5 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
     </>
   );
 }
+
+    

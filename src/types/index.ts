@@ -18,6 +18,7 @@ export interface Task {
   clientId?: string;
   assignedTo?: string; // freelancer's user ID
   assignedToName?: string; // freelancer's name
+  posterLocation?: GeoPoint;
 }
 
 export interface User {
@@ -57,3 +58,5 @@ export interface Interest {
     freelancer: User;
     interestedAt: Timestamp;
 }
+
+    
