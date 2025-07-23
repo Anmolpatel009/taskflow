@@ -183,4 +183,3 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
     </>
   );
 }
-
