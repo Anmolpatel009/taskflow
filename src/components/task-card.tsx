@@ -1,15 +1,19 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Task } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Eye, Zap, Trash2 } from 'lucide-react';
+import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Zap, Trash2 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import InterestModal from '@/components/interest-modal';
 import ViewInterestedModal from './view-interested-modal';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { getAuth, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import { app } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 
 interface TaskCardProps {
@@ -22,6 +26,29 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
   const [feedback, setFeedback] = useState<'interested' | 'not-interested' | null>(null);
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
   const [isViewInterestedModalOpen, setIsViewInterestedModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleViewInterestedClick = () => {
+    if (currentUser) {
+      setIsViewInterestedModalOpen(true);
+    } else {
+      toast({
+        title: "Login Required",
+        description: "Please log in or sign up to view interested freelancers.",
+      });
+      router.push('/login');
+    }
+  };
 
   const handleInterestedClick = () => {
     setIsInterestModalOpen(true);
@@ -73,7 +100,7 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
                 </Button>
             </div>
              {interestedCount > 0 && (
-                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={() => setIsViewInterestedModalOpen(true)}>
+                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={handleViewInterestedClick}>
                     <Users className="mr-2 h-4 w-4" /> {interestedCount} interested. View
                 </Button>
              )}
@@ -90,7 +117,7 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
                 <Trash2 className="mr-2 h-4 w-4" /> Delete Task
             </Button>
             {task.interestedCount > 0 && (
-                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={() => setIsViewInterestedModalOpen(true)}>
+                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={handleViewInterestedClick}>
                     <Users className="mr-2 h-4 w-4" /> {task.interestedCount} interested. View
                 </Button>
             )}
@@ -156,3 +183,4 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
     </>
   );
 }
+
