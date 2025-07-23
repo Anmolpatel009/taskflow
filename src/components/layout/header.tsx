@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import {
@@ -12,6 +12,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from '@/hooks/use-auth';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
@@ -47,6 +49,71 @@ const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { 
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, loading, logout } = useAuth();
+
+  const AuthButtons = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center gap-2">
+            <Skeleton className="h-9 w-20" />
+            <Skeleton className="h-9 w-24" />
+        </div>
+      );
+    }
+
+    if (user) {
+        return (
+            <div className="flex items-center gap-2">
+                 <Button variant="outline" size="sm" asChild>
+                    <Link href="/dashboard"><LayoutDashboard /> Dashboard</Link>
+                </Button>
+                <Button size="sm" onClick={logout}>
+                    <LogOut /> Log Out
+                </Button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/login">Log In</Link>
+            </Button>
+            <Button size="sm" asChild>
+              <Link href="/signup">Join Now</Link>
+            </Button>
+        </div>
+    )
+  }
+
+  const MobileAuthButtons = () => {
+    if (loading) {
+        return <Skeleton className="h-10 w-full" />
+    }
+    if (user) {
+        return (
+            <>
+                <Button variant="outline" asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <Button onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+                    Log Out
+                </Button>
+            </>
+        )
+    }
+    return (
+        <>
+            <Button variant="outline" asChild>
+                <Link href="/login">Log In</Link>
+            </Button>
+            <Button asChild>
+                <Link href="/signup">Join Now</Link>
+            </Button>
+        </>
+    )
+  }
+
 
   return (
     <header className="bg-background w-full border-b sticky top-0 z-40">
@@ -75,21 +142,10 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center space-x-2">
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/signup">Join Now</Link>
-            </Button>
+           <AuthButtons />
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
-             <Button variant="outline" size="sm" asChild className="px-2">
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button size="sm" asChild className="px-2">
-              <Link href="/signup">Join Now</Link>
-            </Button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -123,12 +179,7 @@ export default function Header() {
                      <Link href="/showall" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Show All</Link>
                     </nav>
                     <div className="mt-auto flex flex-col gap-2">
-                        <Button variant="outline" asChild>
-                            <Link href="/login">Log In</Link>
-                        </Button>
-                        <Button asChild>
-                            <Link href="/signup">Join Now</Link>
-                        </Button>
+                       <MobileAuthButtons />
                     </div>
                 </div>
                 </SheetContent>
