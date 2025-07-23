@@ -84,10 +84,10 @@ export default function Header() {
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
-             <Button variant="outline" size="sm" asChild>
+             <Button variant="outline" size="sm" asChild className="px-2">
               <Link href="/login">Log In</Link>
             </Button>
-            <Button size="sm" asChild>
+            <Button size="sm" asChild className="px-2">
               <Link href="/signup">Join Now</Link>
             </Button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
