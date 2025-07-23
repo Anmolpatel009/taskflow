@@ -17,6 +17,7 @@ export interface Task {
   interestedCount?: number;
   clientId?: string;
   assignedTo?: string; // freelancer's user ID
+  assignedToName?: string; // freelancer's name
 }
 
 export interface User {

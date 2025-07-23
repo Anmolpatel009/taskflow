@@ -5,6 +5,7 @@ import StatCard from './stat-card';
 import { Briefcase, IndianRupee, Search, CheckCircle, Heart } from 'lucide-react';
 import Link from 'next/link';
 import MyInterestedTasks from './my-interested-tasks';
+import ActiveTasksList from './active-tasks-list';
 
 interface FreelancerDashboardProps {
   user: User;
@@ -55,10 +56,7 @@ export default function FreelancerDashboard({ user }: FreelancerDashboardProps) 
       
       <div className="space-y-4">
           <h2 className="text-2xl font-bold font-headline">Your Active Tasks</h2>
-          <div className="text-center py-20 border-2 border-dashed rounded-lg bg-background">
-              <h3 className="text-xl font-semibold text-muted-foreground">No active tasks.</h3>
-              <p className="text-muted-foreground mt-2">Tasks you're working on will appear here.</p>
-          </div>
+          <ActiveTasksList freelancerId={user.id} />
       </div>
 
       <div className="space-y-4">
