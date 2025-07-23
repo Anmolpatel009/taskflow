@@ -121,7 +121,8 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
     }
 
     const taskRef = doc(db, 'tasks', taskState.id);
-    const userRef = doc(db, 'users', currentUser.id);
+    const freelancerRef = doc(db, 'users', currentUser.id);
+    const clientId = taskState.clientId;
 
     try {
       await runTransaction(db, async (transaction) => {
@@ -130,19 +131,31 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
           throw new Error("This task is no longer available.");
         }
         
-        const userDoc = await transaction.get(userRef);
-        if (!userDoc.exists()) {
+        const freelancerDoc = await transaction.get(freelancerRef);
+        if (!freelancerDoc.exists()) {
           throw new Error("User not found.");
         }
-
-        const newActiveProjects = (userDoc.data().activeProjects || 0) + 1;
-
+        
+        // Update freelancer's project count
+        const newFreelancerActiveProjects = (freelancerDoc.data().activeProjects || 0) + 1;
+        transaction.update(freelancerRef, { activeProjects: newFreelancerActiveProjects });
+        
+        // Update task status
         transaction.update(taskRef, { 
           status: 'assigned',
           assignedTo: currentUser.id,
           assignedToName: currentUser.name || 'Anonymous',
         });
-        transaction.update(userRef, { activeProjects: newActiveProjects });
+        
+        // Update client's project count
+        if (clientId) {
+          const clientRef = doc(db, 'users', clientId);
+          const clientDoc = await transaction.get(clientRef);
+          if (clientDoc.exists()) {
+            const newClientActiveProjects = (clientDoc.data().activeProjects || 0) + 1;
+            transaction.update(clientRef, { activeProjects: newClientActiveProjects });
+          }
+        }
       });
 
       toast({ title: 'Task Accepted!', description: "The task has been added to your active projects." });
