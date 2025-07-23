@@ -28,10 +28,10 @@ export default function TaskList() {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-card rounded-lg p-4">
-            <Skeleton className="h-[250px] w-full" />
+          <div key={i} className="bg-card rounded-lg p-4 h-[300px]">
+            <Skeleton className="h-full w-full" />
           </div>
         ))}
       </div>
@@ -40,7 +40,7 @@ export default function TaskList() {
 
   if (tasks.length === 0) {
     return (
-      <div className="text-center py-12 border-2 border-dashed rounded-lg">
+      <div className="text-center py-12 border-2 border-dashed rounded-lg col-span-full">
         <h3 className="text-xl font-semibold text-muted-foreground">No tasks posted yet.</h3>
         <p className="text-muted-foreground mt-2">Be the first to post a task!</p>
       </div>
@@ -48,7 +48,7 @@ export default function TaskList() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}

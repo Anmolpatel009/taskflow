@@ -53,6 +53,51 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
       alert("Delete Task functionality to be implemented.");
   }
 
+  const renderPublicButtons = () => {
+    if (task.taskType === 'instant') {
+      return (
+        <Button size="sm" onClick={handleAcceptTask}>
+          <Zap className="mr-2 h-4 w-4" /> Accept Task
+        </Button>
+      );
+    }
+    if (task.taskType === 'discuss') {
+      return (
+        <div className="flex flex-col items-start gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+                <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick} disabled={!!feedback}>
+                    <ThumbsUp className="mr-2 h-4 w-4" /> Interested
+                </Button>
+                <Button size="sm" variant={feedback === 'not-interested' ? 'destructive' : 'outline'} onClick={handleNotInterested} disabled={!!feedback}>
+                    <ThumbsDown className="mr-2 h-4 w-4" /> Not Interested
+                </Button>
+            </div>
+             {interestedCount > 0 && (
+                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={() => setIsViewInterestedModalOpen(true)}>
+                    <Users className="mr-2 h-4 w-4" /> {interestedCount} interested. View
+                </Button>
+             )}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderClientButtons = () => {
+      return (
+        <div className="flex flex-col items-start gap-2">
+            <Button size="sm" variant="destructive" onClick={handleDeleteTask}>
+                <Trash2 className="mr-2 h-4 w-4" /> Delete Task
+            </Button>
+            {task.interestedCount > 0 && (
+                 <Button size="sm" variant="outline" className="h-auto py-1 px-2" onClick={() => setIsViewInterestedModalOpen(true)}>
+                    <Users className="mr-2 h-4 w-4" /> {task.interestedCount} interested. View
+                </Button>
+            )}
+        </div>
+      )
+  }
+
   return (
     <>
         <Card className="flex flex-col h-full bg-card hover:shadow-xl transition-shadow duration-300 w-full">
@@ -72,53 +117,8 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
                 </div>
                 <p className="text-sm text-foreground/80 line-clamp-3 mb-4">{task.description}</p>
                 
-                 <div className="flex flex-wrap items-center gap-2">
-                    {viewContext === 'public' && task.taskType === 'instant' && (
-                       <Button size="sm" onClick={handleAcceptTask}>
-                            <Zap className="mr-2 h-4 w-4" /> Accept Task
-                        </Button>
-                    )}
-                     {viewContext === 'public' && task.taskType === 'discuss' && (
-                        <>
-                            <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick}>
-                                <ThumbsUp className="mr-2 h-4 w-4" /> Interested
-                            </Button>
-                            <Button size="sm" variant={feedback === 'not-interested' ? 'destructive' : 'outline'} onClick={handleNotInterested}>
-                                <ThumbsDown className="mr-2 h-4 w-4" /> Not Interested
-                            </Button>
-                        </>
-                    )}
-                     {viewContext === 'client' && (
-                        <Button size="sm" variant="destructive" onClick={handleDeleteTask}>
-                           <Trash2 className="mr-2 h-4 w-4" /> Delete Task
-                        </Button>
-                    )}
-                </div>
-
-                {viewContext === 'public' && task.taskType === 'discuss' && (
-                    <div className="mt-2 flex flex-wrap gap-2 items-center">
-                        <Button size="sm" variant="outline" className="cursor-default">
-                            <Users className="mr-2 h-4 w-4" /> {interestedCount}
-                        </Button>
-                        {interestedCount > 0 && (
-                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
-                            <Eye className="mr-2 h-4 w-4" /> View
-                        </Button>
-                        )}
-                    </div>
-                )}
-                 {viewContext === 'client' && (
-                    <div className="mt-2 flex flex-wrap gap-2 items-center">
-                        <Button size="sm" variant="outline" className="cursor-default">
-                            <Users className="mr-2 h-4 w-4" /> {interestedCount} Interested
-                        </Button>
-                        {interestedCount > 0 && (
-                        <Button size="sm" variant="outline" onClick={() => setIsViewInterestedModalOpen(true)}>
-                            <Eye className="mr-2 h-4 w-4" /> View
-                        </Button>
-                        )}
-                    </div>
-                )}
+                {viewContext === 'public' && renderPublicButtons()}
+                {viewContext === 'client' && renderClientButtons()}
 
             </CardContent>
             <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
