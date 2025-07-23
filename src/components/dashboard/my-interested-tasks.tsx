@@ -19,10 +19,11 @@ export default function MyInterestedTasks({ freelancerId }: MyInterestedTasksPro
   useEffect(() => {
     if (!freelancerId) return;
 
-    // Simplified query to avoid composite index
+    // This query requires a composite index.
     const interestsQuery = query(
       collection(db, 'intrested'),
-      where('freelancerId', '==', freelancerId)
+      where('freelancerId', '==', freelancerId),
+      orderBy('interestedAt', 'desc')
     );
 
     const unsubscribeInterests = onSnapshot(interestsQuery, async (snapshot) => {
@@ -32,15 +33,9 @@ export default function MyInterestedTasks({ freelancerId }: MyInterestedTasksPro
         return;
       }
       
-      // Manual sort after fetching
-      const interests = snapshot.docs
-        .map(doc => ({ ...doc.data(), id: doc.id } as Interest))
-        .sort((a, b) => b.interestedAt.toMillis() - a.interestedAt.toMillis());
-        
+      const interests = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as Interest));
       const taskIds = interests.map(interest => interest.taskId);
       
-      // Firestore 'in' query is limited to 30 items. 
-      // If a user can be interested in more, pagination would be needed.
       if (taskIds.length === 0) {
           setTasks([]);
           setLoading(false);
@@ -55,7 +50,6 @@ export default function MyInterestedTasks({ freelancerId }: MyInterestedTasksPro
           tasksData.push({ id: doc.id, ...doc.data() } as Task);
         });
 
-        // Sort tasks by the original interest date
         const sortedTasks = tasksData.sort((a, b) => {
             const indexA = taskIds.indexOf(a.id);
             const indexB = taskIds.indexOf(b.id);
