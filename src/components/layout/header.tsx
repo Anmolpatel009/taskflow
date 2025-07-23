@@ -75,10 +75,10 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center space-x-2">
-            <Button variant="outline" asChild>
+            <Button variant="outline" size="sm" asChild>
               <Link href="/login">Log In</Link>
             </Button>
-            <Button asChild>
+            <Button size="sm" asChild>
               <Link href="/signup">Join Now</Link>
             </Button>
         </div>
