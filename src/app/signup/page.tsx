@@ -279,7 +279,17 @@ export default function SignupPage() {
                         <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" placeholder="Your phone number" {...field} /></FormControl><FormMessage /></FormItem>
                       )} />
                       <FormField control={form.control} name="address" render={({ field }) => (
-                        <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea rows={3} placeholder="Your full address" /></FormControl><FormMessage /></FormItem>
+                        <FormItem>
+                            <div className="flex justify-between items-center">
+                                <FormLabel>Address</FormLabel>
+                                <Button type="button" variant="link" size="sm" className="h-auto p-0" onClick={handleDetectLocation} disabled={isDetectingLocation}>
+                                     {isDetectingLocation ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <LocateFixed className="h-4 w-4 mr-1" />}
+                                     Detect Address
+                                </Button>
+                            </div>
+                            <FormControl><Textarea rows={3} placeholder="Your full address" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
                       )} />
                   </div>
                 )}
