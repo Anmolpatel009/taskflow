@@ -2,8 +2,9 @@
 import type { User } from '@/types';
 import { Button } from '@/components/ui/button';
 import StatCard from './stat-card';
-import { Briefcase, IndianRupee, Search, CheckCircle } from 'lucide-react';
+import { Briefcase, IndianRupee, Search, CheckCircle, Heart } from 'lucide-react';
 import Link from 'next/link';
+import MyInterestedTasks from './my-interested-tasks';
 
 interface FreelancerDashboardProps {
   user: User;
@@ -47,7 +48,7 @@ export default function FreelancerDashboard({ user }: FreelancerDashboardProps) 
         <StatCard
           title="Tasks Applied"
           value={user.tasksApplied || 0}
-          icon={Search}
+          icon={Heart}
           description="Number of tasks you've shown interest in."
         />
       </div>
@@ -58,6 +59,11 @@ export default function FreelancerDashboard({ user }: FreelancerDashboardProps) 
               <h3 className="text-xl font-semibold text-muted-foreground">No active tasks.</h3>
               <p className="text-muted-foreground mt-2">Tasks you're working on will appear here.</p>
           </div>
+      </div>
+
+      <div className="space-y-4">
+          <h2 className="text-2xl font-bold font-headline">Tasks You're Interested In</h2>
+          <MyInterestedTasks freelancerId={user.id} />
       </div>
     </div>
   );

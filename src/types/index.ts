@@ -51,6 +51,7 @@ export interface User {
 export interface Interest {
     id: string;
     taskId: string;
+    taskTitle: string;
     freelancerId: string;
     freelancer: User;
     interestedAt: Timestamp;

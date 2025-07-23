@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Task } from '@/types';
+import type { Task, User } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock, Mail, Phone, ThumbsUp, ThumbsDown, Users, Zap, Trash2 } from 'lucide-react';
@@ -11,7 +11,8 @@ import InterestModal from '@/components/interest-modal';
 import ViewInterestedModal from './view-interested-modal';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAuth, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { app, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
@@ -26,19 +27,32 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
   const [feedback, setFeedback] = useState<'interested' | 'not-interested' | null>(null);
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
   const [isViewInterestedModalOpen, setIsViewInterestedModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const router = useRouter();
   const { toast } = useToast();
+  const auth = getAuth(app);
 
   useEffect(() => {
-    const auth = getAuth(app);
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userDocRef = doc(db, 'users', firebaseUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setCurrentUser({ id: userDoc.id, ...userDoc.data() } as User);
+        } else {
+          setCurrentUser(null);
+        }
+      } else {
+        setCurrentUser(null);
+      }
+      setAuthLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   const handleViewInterestedClick = () => {
+    if (authLoading) return;
     if (currentUser) {
       setIsViewInterestedModalOpen(true);
     } else {
@@ -51,6 +65,26 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
   };
 
   const handleInterestedClick = () => {
+    if (authLoading) return;
+
+    if (!currentUser) {
+       toast({
+        title: "Login Required",
+        description: "Please log in to show interest.",
+      });
+      router.push('/login');
+      return;
+    }
+    
+    if (currentUser.role !== 'freelancer') {
+        toast({
+          variant: 'destructive',
+          title: 'Action Not Allowed',
+          description: 'Only users registered as freelancers can show interest in tasks.',
+        });
+        return;
+    }
+
     setIsInterestModalOpen(true);
   };
   
@@ -92,7 +126,7 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
       return (
         <div className="flex flex-col items-start gap-2">
             <div className="flex flex-wrap items-center gap-2">
-                <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick} disabled={!!feedback}>
+                <Button size="sm" variant={feedback === 'interested' ? 'default' : 'outline'} onClick={handleInterestedClick} disabled={!!feedback || authLoading}>
                     <ThumbsUp className="mr-2 h-4 w-4" /> Interested
                 </Button>
                 <Button size="sm" variant={feedback === 'not-interested' ? 'destructive' : 'outline'} onClick={handleNotInterested} disabled={!!feedback}>
@@ -173,6 +207,7 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
         isOpen={isInterestModalOpen} 
         onOpenChange={setIsInterestModalOpen}
         taskId={task.id}
+        user={currentUser}
         onInterestSubmitted={onInterestSubmitted}
       />
       <ViewInterestedModal
