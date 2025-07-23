@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from '@/hooks/use-auth';
 import { Skeleton } from '@/components/ui/skeleton';
+import { usePathname } from 'next/navigation';
+
 
 const navLinks = [
   { href: '/find-work', label: 'Find Work' },
@@ -50,6 +52,9 @@ const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, loading, logout } = useAuth();
+  const pathname = usePathname();
+
+  const isDashboard = pathname.startsWith('/dashboard');
 
   const AuthButtons = () => {
     if (loading) {
@@ -62,6 +67,7 @@ export default function Header() {
     }
 
     if (user) {
+        if (isDashboard) return null; // Don't show buttons on dashboard header
         return (
             <div className="flex items-center gap-2">
                  <Button variant="outline" size="sm" asChild>
@@ -91,6 +97,7 @@ export default function Header() {
         return <Skeleton className="h-10 w-full" />
     }
     if (user) {
+        if (isDashboard) return null;
         return (
             <>
                 <Button variant="outline" asChild>
@@ -117,7 +124,7 @@ export default function Header() {
 
   return (
     <header className="bg-background w-full border-b sticky top-0 z-40">
-      <div className="container flex h-20 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 text-primary">
               <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.071l9 9a.75.75 0 001.071-1.071l-9-9zM12 3a9 9 0 100 18 9 9 0 000-18zM3.75 12a8.25 8.25 0 1116.5 0 8.25 8.25 0 01-16.5 0z" clipRule="evenodd" />
@@ -126,26 +133,29 @@ export default function Header() {
             TalentFlow
           </span>
         </Link>
+        {!isDashboard && (
+             <nav className="hidden lg:flex items-center space-x-2 text-sm font-medium">
+                {navLinks.map((link) => (
+                    <NavLink key={link.href} href={link.href} label={link.label} />
+                ))}
+                <NavLink label="Explore" hasDropdown>
+                        <DropdownMenuItem asChild>
+                            <Link href="/nearby">Nearby</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/showall">Show All</Link>
+                        </DropdownMenuItem>
+                    </NavLink>
+            </nav>
+        )}
 
-        <nav className="hidden lg:flex items-center space-x-2 text-sm font-medium">
-          {navLinks.map((link) => (
-            <NavLink key={link.href} href={link.href} label={link.label} />
-          ))}
-           <NavLink label="Explore" hasDropdown>
-                <DropdownMenuItem asChild>
-                    <Link href="/nearby">Nearby</Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                    <Link href="/showall">Show All</Link>
-                </DropdownMenuItem>
-            </NavLink>
-        </nav>
 
         <div className="hidden lg:flex items-center space-x-2">
            <AuthButtons />
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
+          {isDashboard ? null : (
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -184,6 +194,7 @@ export default function Header() {
                 </div>
                 </SheetContent>
             </Sheet>
+            )}
         </div>
       </div>
     </header>
