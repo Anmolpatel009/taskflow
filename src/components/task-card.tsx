@@ -122,39 +122,46 @@ export default function TaskCard({ task, viewContext = 'public' }: TaskCardProps
 
     const taskRef = doc(db, 'tasks', taskState.id);
     const freelancerRef = doc(db, 'users', currentUser.id);
-    const clientId = taskState.clientId;
 
     try {
       await runTransaction(db, async (transaction) => {
+        // --- All READ operations must come first ---
         const taskDoc = await transaction.get(taskRef);
+        const freelancerDoc = await transaction.get(freelancerRef);
+        
         if (!taskDoc.exists() || taskDoc.data().status !== 'open') {
           throw new Error("This task is no longer available.");
         }
-        
-        const freelancerDoc = await transaction.get(freelancerRef);
         if (!freelancerDoc.exists()) {
-          throw new Error("User not found.");
+          throw new Error("Freelancer user not found.");
         }
         
-        // Update freelancer's project count
+        // Read client doc if clientId exists
+        const clientId = taskDoc.data().clientId;
+        let clientDoc = null;
+        let clientRef = null;
+        if (clientId) {
+            clientRef = doc(db, 'users', clientId);
+            clientDoc = await transaction.get(clientRef);
+        }
+
+        // --- All WRITE operations must come after reads ---
+
+        // 1. Update freelancer's project count
         const newFreelancerActiveProjects = (freelancerDoc.data().activeProjects || 0) + 1;
         transaction.update(freelancerRef, { activeProjects: newFreelancerActiveProjects });
         
-        // Update task status
+        // 2. Update task status
         transaction.update(taskRef, { 
           status: 'assigned',
           assignedTo: currentUser.id,
           assignedToName: currentUser.name || 'Anonymous',
         });
         
-        // Update client's project count
-        if (clientId) {
-          const clientRef = doc(db, 'users', clientId);
-          const clientDoc = await transaction.get(clientRef);
-          if (clientDoc.exists()) {
+        // 3. Update client's project count
+        if (clientDoc && clientRef && clientDoc.exists()) {
             const newClientActiveProjects = (clientDoc.data().activeProjects || 0) + 1;
             transaction.update(clientRef, { activeProjects: newClientActiveProjects });
-          }
         }
       });
 
