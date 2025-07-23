@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard, Briefcase, Users, DollarSign, Calendar, Star, Construction, FileText, UserCheck, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import {
@@ -24,6 +24,24 @@ const navLinks = [
   { href: '/one-percent-club', label: 'The 1% Club' },
   { href: '/build-together', label: 'Build Together' },
 ];
+
+const freelancerNav = [
+  { href: '/find-work', label: 'Find Jobs & Projects', icon: Briefcase },
+  { href: '#', label: 'My Clients', icon: Users },
+  { href: '#', label: 'My Projects', icon: FileText },
+  { href: '#', label: 'Payments', icon: DollarSign },
+  { href: '#', label: 'Schedules', icon: Calendar },
+  { href: '/one-percent-club', label: 'The 1% Club', icon: Star },
+  { href: '/build-together', label: 'Build Together', icon: Construction },
+];
+
+const clientNav = [
+  { href: '/dashboard', label: 'My Tasks', icon: FileText },
+  { href: '#', label: 'My Freelancers', icon: UserCheck },
+  { href: '#', label: 'Payments', icon: DollarSign },
+  { href: '#', label: 'Meetups', icon: MessageSquare },
+];
+
 
 const NavLink = ({ href, label, hasDropdown = false, children, onLinkClick }: { href?: string, label: string, hasDropdown?: boolean, children?: React.ReactNode, onLinkClick?: () => void }) => {
     if (href) {
@@ -67,14 +85,13 @@ export default function Header() {
     }
 
     if (user) {
-        if (isDashboard) return null; // Don't show buttons on dashboard header
         return (
             <div className="flex items-center gap-2">
                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/dashboard"><LayoutDashboard /> Dashboard</Link>
+                    <Link href="/dashboard"><LayoutDashboard className="h-4 w-4 mr-1" /> Dashboard</Link>
                 </Button>
                 <Button size="sm" onClick={logout}>
-                    <LogOut /> Log Out
+                    <LogOut className="h-4 w-4 mr-1" /> Log Out
                 </Button>
             </div>
         )
@@ -92,35 +109,71 @@ export default function Header() {
     )
   }
 
-  const MobileAuthButtons = () => {
-    if (loading) {
-        return <Skeleton className="h-10 w-full" />
-    }
-    if (user) {
-        if (isDashboard) return null;
+  const MobileMenuContent = () => {
+    // This is a simplified check. In a real app, you might fetch user role.
+    // For now, we assume if a user is logged in on the dashboard, we show role-based links.
+    // A more robust solution would pass the user's role from the page.
+    const navItems = user?.email?.includes('client') ? clientNav : freelancerNav;
+
+    if (isDashboard && user) {
         return (
             <>
-                <Button variant="outline" asChild>
-                    <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                <Button onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
-                    Log Out
-                </Button>
+                <nav className="flex flex-col gap-2">
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.label}
+                            href={item.href}
+                            className="flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium text-foreground/80 hover:bg-accent hover:text-primary"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            <item.icon className="h-5 w-5" />
+                            <span>{item.label}</span>
+                        </Link>
+                    ))}
+                </nav>
+                <div className="mt-auto flex flex-col gap-2">
+                     <Button onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+                        Log Out
+                    </Button>
+                </div>
             </>
         )
     }
+
     return (
         <>
-            <Button variant="outline" asChild>
-                <Link href="/login">Log In</Link>
-            </Button>
-            <Button asChild>
-                <Link href="/signup">Join Now</Link>
-            </Button>
+            <nav className="flex flex-col gap-6">
+                {navLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-lg font-medium text-foreground/80 hover:text-primary"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        {link.label}
+                    </Link>
+                ))}
+                <Link href="/nearby" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Nearby</Link>
+                <Link href="/showall" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Show All</Link>
+            </nav>
+            <div className="mt-auto flex flex-col gap-2">
+               {loading && <Skeleton className="h-10 w-full" />}
+               {!loading && !user && (
+                    <>
+                        <Button variant="outline" asChild><Link href="/login">Log In</Link></Button>
+                        <Button asChild><Link href="/signup">Join Now</Link></Button>
+                    </>
+               )}
+               {!loading && user && (
+                    <>
+                        <Button variant="outline" asChild><Link href="/dashboard">Dashboard</Link></Button>
+                        <Button onClick={() => { logout(); setIsMobileMenuOpen(false); }}>Log Out</Button>
+                    </>
+               )}
+            </div>
         </>
     )
   }
-
 
   return (
     <header className="bg-background w-full border-b sticky top-0 z-40">
@@ -133,6 +186,7 @@ export default function Header() {
             TalentFlow
           </span>
         </Link>
+        
         {!isDashboard && (
              <nav className="hidden lg:flex items-center space-x-2 text-sm font-medium">
                 {navLinks.map((link) => (
@@ -149,13 +203,11 @@ export default function Header() {
             </nav>
         )}
 
-
         <div className="hidden lg:flex items-center space-x-2">
            <AuthButtons />
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
-          {isDashboard ? null : (
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -174,27 +226,10 @@ export default function Header() {
                             <span className="font-bold text-2xl font-headline text-primary">TalentFlow</span>
                         </Link>
                     </div>
-                    <nav className="flex flex-col gap-6 mt-8">
-                    {navLinks.map((link) => (
-                        <Link
-                        key={link.href}
-                        href={link.href}
-                        className="text-lg font-medium text-foreground/80 hover:text-primary"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                        {link.label}
-                        </Link>
-                    ))}
-                     <Link href="/nearby" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Nearby</Link>
-                     <Link href="/showall" className="text-lg font-medium text-foreground/80 hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>Show All</Link>
-                    </nav>
-                    <div className="mt-auto flex flex-col gap-2">
-                       <MobileAuthButtons />
-                    </div>
+                    <MobileMenuContent />
                 </div>
                 </SheetContent>
             </Sheet>
-            )}
         </div>
       </div>
     </header>
