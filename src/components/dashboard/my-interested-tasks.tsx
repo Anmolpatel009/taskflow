@@ -19,10 +19,10 @@ export default function MyInterestedTasks({ freelancerId }: MyInterestedTasksPro
   useEffect(() => {
     if (!freelancerId) return;
 
+    // Simplified query to avoid composite index
     const interestsQuery = query(
       collection(db, 'intrested'),
-      where('freelancerId', '==', freelancerId),
-      orderBy('interestedAt', 'desc')
+      where('freelancerId', '==', freelancerId)
     );
 
     const unsubscribeInterests = onSnapshot(interestsQuery, async (snapshot) => {
@@ -31,8 +31,13 @@ export default function MyInterestedTasks({ freelancerId }: MyInterestedTasksPro
         setLoading(false);
         return;
       }
-
-      const taskIds = snapshot.docs.map(doc => doc.data().taskId);
+      
+      // Manual sort after fetching
+      const interests = snapshot.docs
+        .map(doc => ({ ...doc.data(), id: doc.id } as Interest))
+        .sort((a, b) => b.interestedAt.toMillis() - a.interestedAt.toMillis());
+        
+      const taskIds = interests.map(interest => interest.taskId);
       
       // Firestore 'in' query is limited to 30 items. 
       // If a user can be interested in more, pagination would be needed.

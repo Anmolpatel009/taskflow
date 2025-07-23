@@ -19,17 +19,19 @@ export default function ActiveTasksList({ freelancerId }: ActiveTasksListProps) 
   useEffect(() => {
     if (!freelancerId) return;
     
+    // Simplified query to avoid composite index
     const q = query(
         collection(db, 'tasks'), 
         where('assignedTo', '==', freelancerId),
-        where('status', '==', 'assigned'),
-        orderBy('createdAt', 'desc')
+        where('status', '==', 'assigned')
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const tasksData: Task[] = [];
       querySnapshot.forEach((doc) => {
         tasksData.push({ id: doc.id, ...doc.data() } as Task);
       });
+      // Sort manually in the client
+      tasksData.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
       setTasks(tasksData);
       setLoading(false);
     }, (error) => {
