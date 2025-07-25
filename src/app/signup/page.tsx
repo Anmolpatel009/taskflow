@@ -303,18 +303,10 @@ function SignupFormComponent() {
 }
 
 
-export default function SignupPage() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
+function SignupPageContent() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 flex items-center justify-center bg-secondary">
-        {mounted ? (
-          <SignupFormComponent />
-        ) : (
-          <Card className="w-full max-w-md">
+    <React.Suspense fallback={
+        <Card className="w-full max-w-md">
             <CardHeader>
                 <CardTitle className="font-headline text-2xl text-center">Loading...</CardTitle>
             </CardHeader>
@@ -326,10 +318,23 @@ export default function SignupPage() {
                     <div className="h-10 bg-muted rounded-md w-full animate-pulse"></div>
                 </div>
             </CardContent>
-          </Card>
-        )}
+        </Card>
+    }>
+      <SignupFormComponent />
+    </React.Suspense>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 flex items-center justify-center bg-secondary">
+        <SignupPageContent />
       </main>
       <Footer />
     </div>
   );
 }
+
+    
